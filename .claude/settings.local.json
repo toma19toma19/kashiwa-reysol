@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(winget *)",
+      "PowerShell(Get-Content *)",
+      "PowerShell(Test-Path *)",
+      "PowerShell(Start-Process -FilePath \"C:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\" -ArgumentList \"--version\" -Wait -NoNewWindow -PassThru 2>$null; $LASTEXITCODE)"
+    ]
+  }
+}
