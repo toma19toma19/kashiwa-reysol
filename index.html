@@ -890,6 +890,7 @@ function switchTab(name) {
         el.classList.toggle('active', ['standings','results','next'][i] === name));
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.getElementById('tab-' + name).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'instant' });
     if (!loaded[name]) { loaded[name] = true; load(name); }
 }
 
@@ -1012,7 +1013,7 @@ let resultEventsList = [];
 
 async function showResults(el) {
     const events = await getSchedule();
-    const past = events.map(parseEvent).filter(e => e && e.completed).reverse();
+    const past = events.map(parseEvent).filter(e => e && e.completed);
     resultEventsList = past;
 
     if (!past.length) {
