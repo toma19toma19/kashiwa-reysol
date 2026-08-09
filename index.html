@@ -104,7 +104,9 @@
             padding: 0 8px;
         }
         .tab {
-            padding: 15px 24px;
+            flex: 1;
+            text-align: center;
+            padding: 15px 8px;
             cursor: pointer;
             color: #777;
             font-size: 0.85rem;
@@ -214,87 +216,166 @@
         .result-pill.win  { background: #0d3320; color: #2ecc71; }
         .result-pill.loss { background: #330d0d; color: #e74c3c; }
         .result-pill.draw { background: #252525; color: #777; }
+        .result-pill.live { background: #3a1111; color: #ff5a5a; }
+        .result-pill.upcoming { background: #2a2618; color: #FFD700; }
 
-        /* ── 次の試合カード ── */
-        .next-card {
-            background: #13150e;
-            border: 1px solid #2a2a1a;
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            position: relative;
+        /* ── 試合結果（1試合ずつ横送り） ── */
+        .mw-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #12131a;
+            border: 1px solid #1e2030;
+            border-radius: 12px;
+            padding: 6px 8px;
+            margin-bottom: 10px;
+            position: sticky;
+            top: 51px;
+            z-index: 9;
         }
-        .next-card-stripe {
-            height: 3px;
-            background: linear-gradient(90deg, #FFD700, #ffb300);
+        .mw-btn {
+            background: #1c1e28;
+            border: none;
+            color: #ccc;
+            font-size: 0.95rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            flex-shrink: 0;
         }
-        .next-card-body {
-            padding: 20px 20px 24px;
+        .mw-btn:hover:not(:disabled) { background: #262936; color: #FFD700; }
+        .mw-btn:disabled { opacity: 0.25; cursor: default; }
+        .mw-label { flex: 1; text-align: center; line-height: 1.25; min-width: 0; }
+        .mw-round {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.03em;
         }
-        .next-card-label {
+        .mw-date {
             font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #FFD700;
-            margin-bottom: 20px;
+            font-weight: 600;
+            color: #7a7f90;
+            margin-top: 2px;
         }
-        .next-teams {
+        .mw-back {
+            display: block;
+            width: 100%;
+            background: #1a1c26;
+            border: 1px solid #262a38;
+            color: #FFD700;
+            font-family: inherit;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 8px;
+            border-radius: 9px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .mw-back:hover { background: #22242f; }
+
+        .mw-view { overflow: hidden; }
+        @keyframes mwFromRight { from { opacity: 0; transform: translateX(30px); }  to { opacity: 1; transform: none; } }
+        @keyframes mwFromLeft  { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: none; } }
+        .mw-slide.in-right { animation: mwFromRight 0.22s ease-out; }
+        .mw-slide.in-left  { animation: mwFromLeft  0.22s ease-out; }
+
+        .match-card.upcoming { border-left-color: #FFD700; }
+        .mw-hero { margin-bottom: 4px; }
+        .mw-hero.clickable { cursor: pointer; }
+        .mw-hero-body {
+            display: flex;
+            align-items: center;
+            padding: 18px 14px 16px;
+            gap: 6px;
+        }
+        .mw-hero .card-team img { width: 46px; height: 46px; }
+        .mw-hero .card-team-name { font-size: 0.9rem; }
+        .mw-hero-center { text-align: center; min-width: 104px; flex-shrink: 0; }
+        .mw-score {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            color: #fff;
+        }
+        .mw-score-sep { color: #555; margin: 0 8px; font-weight: 600; }
+        .mw-vs { font-size: 1.3rem; font-weight: 800; color: #4a4f60; line-height: 1; }
+        .mw-ko { font-size: 0.8rem; font-weight: 700; color: #ccc; margin-top: 6px; }
+        .mw-hero-foot {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 8px;
-            margin-bottom: 22px;
+            padding: 9px 14px;
+            background: #12131a;
+            border-top: 1px solid #1e2030;
+            font-size: 0.68rem;
+            color: #7a7f90;
         }
-        .next-team {
+        .mw-more { color: #FFD700; font-weight: 700; flex-shrink: 0; }
+
+        /* ── 節ごとの試合一覧 ── */
+        .round-date {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #666;
+            letter-spacing: 0.06em;
+            margin: 14px 4px 8px;
+        }
+        .fixture {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #161820;
+            border-radius: 10px;
+            border-left: 3px solid #2a2d3a;
+            padding: 11px 12px;
+            margin-bottom: 6px;
+        }
+        .fixture.mine { border-left-color: #FFD700; background: #191b24; }
+        .fixture-team {
             flex: 1;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 10px;
-            text-align: center;
+            gap: 8px;
+            min-width: 0;
         }
-        .next-team img {
-            width: 60px;
-            height: 60px;
+        .fixture-team.right { flex-direction: row-reverse; text-align: right; }
+        .fixture-team img {
+            width: 26px;
+            height: 26px;
             object-fit: contain;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
-        }
-        .next-team-name {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #fff;
-            line-height: 1.3;
-        }
-        .next-vs {
-            font-size: 0.85rem;
-            font-weight: 800;
-            color: #555;
             flex-shrink: 0;
-            padding: 0 4px;
         }
-        .next-info {
-            border-top: 1px solid #222;
-            padding-top: 18px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .next-date {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #fff;
-        }
-        .next-time {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #FFD700;
-        }
-        .next-venue {
+        .fixture-name {
             font-size: 0.78rem;
-            color: #777;
-            margin-top: 2px;
+            font-weight: 600;
+            color: #999;
+            line-height: 1.25;
         }
+        .fixture-name.mine   { color: #FFD700; }
+        .fixture-name.winner { color: #fff; }
+        .fixture-score {
+            min-width: 62px;
+            text-align: center;
+            flex-shrink: 0;
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #eee;
+        }
+        .fixture-time {
+            min-width: 62px;
+            text-align: center;
+            flex-shrink: 0;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #666;
+        }
+        .fixture-live { color: #e74c3c; }
+
         /* ── フォーム ── */
         .form-section {
             margin-top: 20px;
@@ -329,6 +410,35 @@
         .form-pill.w { background: #0d3320; color: #2ecc71; }
         .form-pill.d { background: #252525; color: #888; }
         .form-pill.l { background: #330d0d; color: #e74c3c; }
+        .form-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+        .form-date {
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: #9aa0b0;
+            line-height: 1;
+            letter-spacing: 0.01em;
+        }
+        .form-year {
+            font-size: 0.55rem;
+            font-weight: 600;
+            color: #5f6474;
+            line-height: 1;
+            margin-top: -1px;
+        }
+        .form-note {
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: #555;
+            letter-spacing: 0.04em;
+            text-transform: none;
+            margin-left: 8px;
+        }
         /* ── 両チームフォーム ── */
         .form-both-row {
             display: flex;
@@ -363,8 +473,8 @@
             border-bottom: 1px solid #1a1a1a;
         }
         .h2h-row:last-child { border-bottom: none; }
-        .h2h-label { font-size: 0.68rem; color: #777; width: 48px; flex-shrink: 0; }
-        .h2h-date  { font-size: 0.72rem; color: #777; width: 36px; flex-shrink: 0; }
+        .h2h-label { font-size: 0.68rem; color: #777; width: 44px; flex-shrink: 0; }
+        .h2h-date  { font-size: 0.7rem;  color: #777; width: 52px; flex-shrink: 0; }
         .h2h-ha    { font-size: 0.65rem; color: #666; background: #1e2030; padding: 1px 5px; border-radius: 3px; flex-shrink: 0; }
         .h2h-pill {
             width: 24px; height: 24px;
@@ -404,18 +514,8 @@
         .h2h-stat.l { color: #e74c3c; }
         .h2h-stat span { font-size: 0.65rem; font-weight: 600; color: #666; margin-left: 2px; }
 
-        .next-ha-badge {
-            display: inline-block;
-            font-size: 0.68rem;
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 20px;
-            background: #1e2030;
-            color: #888;
-            margin-top: 4px;
-            letter-spacing: 0.04em;
-            align-self: flex-start;
-        }
+        .mw-preview-loading { padding: 26px 0 6px; text-align: center; }
+        .mw-preview-loading .spinner { margin: 0 auto; }
 
         /* ── 試合カード タップ ── */
         .match-card { cursor: pointer; }
@@ -748,9 +848,21 @@
             .hstat-val { font-size: 1.2rem; }
             .hstat-divider { margin: 0 10px 0 0; }
             .hstat { padding-right: 10px; }
-            .next-team img { width: 48px; height: 48px; }
             .card-team img { width: 30px; height: 30px; }
             .td-team-name { max-width: 80px; }
+            .mw-nav { top: 45px; }
+            .mw-hero .card-team img { width: 38px; height: 38px; }
+            .mw-hero .card-team-name { font-size: 0.82rem; }
+            .mw-hero-body { padding: 15px 10px 13px; }
+            .mw-hero-center { min-width: 90px; }
+            .mw-score { font-size: 1.9rem; }
+            .mw-score-sep { margin: 0 5px; }
+            .fixture { padding: 10px 9px; gap: 4px; }
+            .fixture-team img { width: 22px; height: 22px; }
+            .fixture-name { font-size: 0.72rem; }
+            .fixture-score, .fixture-time { min-width: 52px; }
+            .fixture-score { font-size: 0.95rem; }
+            .fixture-time { font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -763,7 +875,7 @@
              alt="柏レイソル"
              onerror="this.style.display='none'">
         <div class="header-info">
-            <div class="team-name">Kashiwa Reysol · J1 League 2026</div>
+            <div class="team-name">Kashiwa Reysol · J1 League <span id="season-title">2026-27</span></div>
             <div class="header-stats" id="header-stats">
                 <div class="hstat"><span class="hstat-val">－</span><span class="hstat-lbl">順位</span></div>
                 <div class="hstat-divider"></div>
@@ -778,7 +890,6 @@
 <div class="tabs">
     <div class="tab active" onclick="switchTab('standings')">順位表</div>
     <div class="tab"        onclick="switchTab('results')">試合結果</div>
-    <div class="tab"        onclick="switchTab('next')">次の試合</div>
 </div>
 
 <div class="content">
@@ -786,9 +897,6 @@
         <div class="loading"><div class="spinner"></div><p>読み込み中…</p></div>
     </div>
     <div id="tab-results" class="tab-content">
-        <div class="loading"><div class="spinner"></div><p>読み込み中…</p></div>
-    </div>
-    <div id="tab-next" class="tab-content">
         <div class="loading"><div class="spinner"></div><p>読み込み中…</p></div>
     </div>
 </div>
@@ -832,6 +940,7 @@ const TEAM_JP = {
     'Yokohama FC':'横浜FC','Shonan Bellmare':'湘南ベルマーレ',
     'V-Varen Nagasaki':'V・ファーレン長崎','Fagiano Okayama':'ファジアーノ岡山',
     'Kashima Antlers':'鹿島アントラーズ','JEF United Ichihara-Chiba':'ジェフ千葉',
+    'Mito Hollyhock':'水戸ホーリーホック','Mito HollyHock':'水戸ホーリーホック',
 };
 const VENUE_JP = {
     'Sankyo Frontier Kashiwa Stadium':'三協フロンテア柏スタジアム',
@@ -847,6 +956,21 @@ const VENUE_JP = {
     'National Olympic Stadium':'国立競技場','NACK5 Stadium Omiya':'NACK5スタジアム大宮',
     'Machida GIONs Stadium':'町田GIONスタジアム','Ekimae Fudosan Stadium':'駅前不動産スタジアム',
     'Shonan BMW Stadium Hiratsuka':'レモンガススタジアム平塚',
+    // 2026-27シーズンでESPNが使用している表記
+    'Kashima Soccer Stadium':'県立カシマサッカースタジアム',
+    'City Light Stadium':'シティライトスタジアム',
+    'PEACE STADIUM Connected by SoftBank':'長崎スタジアムシティ',
+    'Yodoko Sakura Stadium':'ヨドコウ桜スタジアム',
+    'Uvance Todoroki Stadium by Fujitsu':'Uvanceとどろきスタジアム by Fujitsu',
+    'Suita City Football Stadium':'パナソニックスタジアム吹田',
+    'Kobe Wing Stadium':'ノエビアスタジアム神戸',
+    'Japan National Stadium':'国立競技場',
+    'Toyota Stadium (Japan)':'トヨタスタジアム',
+    'Sanga Stadium by Kyocera':'サンガスタジアム by KYOCERA',
+    'Machida Gion Stadium':'町田GIONスタジアム',
+    'Fukuda Denshi Arena':'フクダ電子アリーナ',
+    "K's Denki Stadium Mito":'ケーズデンキスタジアム水戸',
+    'Kasamatsu Stadium':'ケーズデンキスタジアム水戸',
 };
 
 // ---- スタジアム座標 ----
@@ -873,6 +997,13 @@ const STADIUM_COORDS = {
     '町田GIONスタジアム':           { lat: 35.5548, lon: 139.4458 },
     '駅前不動産スタジアム':         { lat: 33.3756, lon: 130.5118 },
     'レモンガススタジアム平塚':     { lat: 35.3393, lon: 139.3338 },
+    '県立カシマサッカースタジアム': { lat: 35.9919, lon: 140.6403 },
+    'シティライトスタジアム':       { lat: 34.6647, lon: 133.9210 },
+    '長崎スタジアムシティ':         { lat: 32.7527, lon: 129.8676 },
+    'ヨドコウ桜スタジアム':         { lat: 34.6142, lon: 135.5183 },
+    'Uvanceとどろきスタジアム by Fujitsu': { lat: 35.6123, lon: 139.6598 },
+    'フクダ電子アリーナ':           { lat: 35.5860, lon: 140.1290 },
+    'ケーズデンキスタジアム水戸':   { lat: 36.3690, lon: 140.4570 },
 };
 
 function toJP(n)     { return TEAM_JP[n]  || n || ''; }
@@ -890,7 +1021,7 @@ function leagueJP(s) {
 const loaded = {};
 function switchTab(name) {
     document.querySelectorAll('.tab').forEach((el, i) =>
-        el.classList.toggle('active', ['standings','results','next'][i] === name));
+        el.classList.toggle('active', ['standings','results'][i] === name));
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.getElementById('tab-' + name).classList.add('active');
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -902,19 +1033,131 @@ async function load(name) {
     try {
         if (name === 'standings') await showStandings(el);
         if (name === 'results')   await showResults(el);
-        if (name === 'next')      await showNext(el);
     } catch(e) {
         el.innerHTML = `<div class="error-box">エラー: ${e.message}</div>`;
     }
 }
 
-// ---- イベント解析 ----
+// ---- シーズン情報 ----
+// ESPNは 2026-07-01 から秋春制（2026-27）を seasontype=4 で提供している。
+// パラメータを付けずに順位表APIを叩くと「現在進行中のシーズン/タイプ」が返るので、
+// 年やタイプをハードコードせずここから取得する。
+const STANDINGS_URL = 'https://site.web.api.espn.com/apis/v2/sports/soccer/jpn.1/standings';
+let seasonInfoCache = null;
+
+async function getSeasonInfo() {
+    if (seasonInfoCache) return seasonInfoCache;
+    let data = {};
+    try {
+        const res = await fetch(STANDINGS_URL + '?type=0');
+        if (res.ok) data = await res.json();
+    } catch(e) { /* 取得失敗時は下のフォールバックへ */ }
+
+    const st   = data.children?.[0]?.standings || data.standings || {};
+    const year = st.season     || data.season || new Date().getFullYear();
+    const type = st.seasonType || 1;
+
+    // seasons[].types[] から現行シーズンの開始日を引く
+    let start = null;
+    const t = (data.seasons || []).find(s => s.year === year)
+                                  ?.types?.find(x => String(x.id) === String(type));
+    if (t?.startDate) start = new Date(t.startDate);
+
+    // 7月以降に開幕するシーズンは年跨ぎ（例: 2026-27）
+    const label = start && start.getUTCMonth() >= 6
+        ? `${year}-${String(year + 1).slice(2)}`
+        : String(year);
+
+    // 参加クラブ数（節あたりの試合数の算出に使う）
+    const teamCount = (data.children || []).reduce((n, c) => n + (c.standings?.entries?.length || 0), 0)
+                      || (data.standings?.entries?.length || 0);
+
+    seasonInfoCache = { year, type, start, label, teamCount, standings: data };
+    return seasonInfoCache;
+}
+
+// ---- スケジュール取得 ----
+// 現行シーズンを明示指定したものと、ESPNの既定（移行前シーズンを返すことがある）を
+// マージして保持する。直近フォームなど過去の試合が必要な箇所でも欠落しないようにするため。
+function mergeEvents(...lists) {
+    const map = new Map();
+    lists.filter(Boolean).flat().forEach(ev => { if (ev?.id) map.set(ev.id, ev); });
+    return [...map.values()].sort((a, b) => new Date(a.date) - new Date(b.date));
+}
+
+// スコアボードのイベントはスコアが文字列なので、スケジュールAPIと同じ形に揃える
+function normaliseScoreboardEvent(ev) {
+    const comp = ev.competitions?.[0];
+    if (!comp) return ev;
+    return { ...ev, competitions: [{ ...comp,
+        competitors: (comp.competitors || []).map(c => ({
+            ...c,
+            score: (c.score && typeof c.score === 'object') ? c.score : { value: Number(c.score) },
+        })),
+    }] };
+}
+
+// チーム別スケジュールAPIはシーズン移行直後などデータ登録が遅れることがあるため、
+// リーグ全体のスコアボード（開幕日から1年分）を予備の取得元として持っておく
+let scoreboardCache = null;
+async function getLeagueScoreboard(start) {
+    if (scoreboardCache) return scoreboardCache;
+    const from = start || new Date();
+    const to   = new Date(from.getTime() + 364 * 86400000); // 366日以上の範囲はESPNが400を返す
+    const ymd  = d => `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+    const res  = await fetch(`${BASE}/scoreboard?dates=${ymd(from)}-${ymd(to)}&limit=1000`);
+    if (!res.ok) return [];   // 一時的な失敗をキャッシュしない
+    const data = await res.json();
+    scoreboardCache = (data.events || []).map(normaliseScoreboardEvent);
+    return scoreboardCache;
+}
+
+async function fetchTeamSchedule(teamId) {
+    const info = await getSeasonInfo();
+    const path = '/teams/' + teamId + '/schedule';
+    const [cur, def] = await Promise.all([
+        get(`${path}?season=${info.year}&seasontype=${info.type}`).catch(() => null),
+        get(path).catch(() => null),
+    ]);
+    let events = mergeEvents(cur?.events, def?.events);
+
+    // 現行シーズンの試合が1件も取れていなければスコアボードから補う
+    if (!events.some(ev => isCurrentSeason(ev, info))) {
+        const sb = await getLeagueScoreboard(info.start).catch(() => []);
+        events = mergeEvents(events, sb.filter(ev =>
+            ev.competitions?.[0]?.competitors?.some(c => c.team?.id === teamId)));
+    }
+    return events;
+}
+
+// 全試合（過去シーズンを含む）
 let scheduleCache = null;
 async function getSchedule() {
-    if (scheduleCache) return scheduleCache;
-    const data = await get('/teams/' + TEAM_ID + '/schedule');
-    scheduleCache = data.events || [];
+    if (!scheduleCache) scheduleCache = await fetchTeamSchedule(TEAM_ID);
     return scheduleCache;
+}
+
+// 現行シーズンの試合のみ
+function isCurrentSeason(ev, info) {
+    if (ev.season?.year === info.year && String(ev.seasonType?.id) === String(info.type)) return true;
+    if (info.start && new Date(ev.date) >= info.start) return true;
+    return false;
+}
+
+async function getSeasonSchedule() {
+    const [events, info] = await Promise.all([getSchedule(), getSeasonInfo()]);
+    return events.filter(ev => isCurrentSeason(ev, info));
+}
+
+// ---- イベント解析 ----
+
+// キックオフ時刻が未定の試合にESPNは 18:00Z などのプレースホルダを入れる。
+// そのままJSTへ変換すると日付が翌日にずれるため、未定時は日付だけを採用する。
+function eventDateInfo(ev) {
+    const timeValid = ev.competitions?.[0]?.timeValid !== false;
+    if (timeValid) return { date: new Date(ev.date), timeValid: true };
+    const [y, m, d] = String(ev.date).slice(0, 10).split('-').map(Number);
+    return { date: new Date(y, m - 1, d), timeValid: false };
 }
 
 function parseEvent(ev) {
@@ -927,9 +1170,11 @@ function parseEvent(ev) {
     const them    = isHome ? away : home;
     const sName   = comp.status?.type?.name || '';
     const done    = sName === 'STATUS_FULL_TIME' || sName === 'STATUS_FINAL' || sName.startsWith('STATUS_FINAL');
+    const when    = eventDateInfo(ev);
     return {
         id:       ev.id || '',
-        date:     new Date(ev.date),
+        date:     when.date,
+        timeValid: when.timeValid,
         league:   leagueJP(ev.season?.displayName),
         venue:    venueJP(comp.venue?.fullName || ''),
         isHome,
@@ -1012,63 +1257,333 @@ function buildWeather(slots, venue) {
 }
 
 // ---- 試合結果 ----
-let resultEventsList = [];
+// 柏の試合を1件だけ大きく表示し、その下に同じ節の他会場の試合を並べる。
+// 初期表示は直前（最後に終了した）試合。◀▶ ボタンとスワイプで過去／先の試合へ移動する。
+let resultEventsMap = {};   // eventId → parseEvent の結果（詳細モーダル用）
+let mwList   = [];          // [{ ev, e, round, others }] 日付昇順
+let mwIndex  = 0;
+let mwLatest = 0;           // 初期表示位置（直近の試合）
 
 async function showResults(el) {
-    const events = await getSchedule();
-    const past = events.map(parseEvent).filter(e => e && e.completed);
-    resultEventsList = past;
+    const [events, info] = await Promise.all([getSeasonSchedule(), getSeasonInfo()]);
 
-    if (!past.length) {
-        el.innerHTML = '<div class="error-box">試合結果がありません</div>';
+    // 同じ節の他会場を出すため、リーグ全体の日程から節を組み立てておく
+    const league = (await getLeagueScoreboard(info.start).catch(() => []))
+                       .filter(ev => isCurrentSeason(ev, info));
+    const rounds = buildRounds(league, Math.floor(info.teamCount / 2));
+
+    const roundById = new Map();
+    rounds.forEach((r, i) => r.forEach(ev => roundById.set(String(ev.id), i)));
+
+    // チーム日程とスコアボードでIDが噛み合わないことがあるので、近い日付の柏の試合からも節を引く
+    const roundOf = (ev, date) => {
+        const byId = roundById.get(String(ev.id));
+        if (byId !== undefined) return byId;
+        const i = rounds.findIndex(r => r.some(o =>
+            (o.competitions?.[0]?.competitors || []).some(c => c.team?.id === TEAM_ID) &&
+            Math.abs(new Date(o.date) - date) < 3 * 86400000));
+        return i < 0 ? null : i;
+    };
+
+    // チーム日程APIはシーズン移行直後だと数試合しか返さないため、
+    // スコアボード側の柏の試合とマージして年間の全試合を確保する（重複はチーム日程を優先）
+    const mine = league.filter(ev =>
+        (ev.competitions?.[0]?.competitors || []).some(c => c.team?.id === TEAM_ID));
+
+    resultEventsMap = {};
+    mwList = mergeEvents(mine, events)
+        .map(ev => ({ ev, e: parseEvent(ev) }))
+        .filter(x => x.e)
+        .sort((a, b) => a.e.date - b.e.date)
+        .map(x => {
+            // 開催中の試合は parseEvent がスコアを返さないので、その場で補う
+            x.e.live = eventStatus(x.ev).live;
+            if (x.e.live && x.e.ourScore === null) {
+                const list = x.ev.competitions?.[0]?.competitors || [];
+                const num  = c => (c?.score?.value != null ? Math.round(c.score.value) : null);
+                x.e.ourScore = num(list.find(c => c.team?.id === TEAM_ID));
+                x.e.oppScore = num(list.find(c => c.team?.id !== TEAM_ID));
+            }
+            resultEventsMap[x.e.id] = x.e;
+            const round  = roundOf(x.ev, x.e.date);
+            const others = round === null ? []
+                : rounds[round].filter(o => String(o.id) !== String(x.ev.id));
+            return { ...x, round, others };
+        });
+
+    if (!mwList.length) {
+        el.innerHTML = `<div class="section-label">${info.label}シーズン 試合結果</div>` +
+            '<div class="error-box">今シーズンの試合情報を取得できませんでした</div>';
         return;
     }
 
-    el.innerHTML = `<div class="section-label">2026シーズン 試合結果</div>` +
-        past.map((e, idx) => {
-            const us = e.ourScore, them = e.oppScore;
-            const cls    = us > them ? 'win' : us < them ? 'loss' : 'draw';
-            const label  = us > them ? 'WIN' : us < them ? 'LOSE' : 'DRAW';
-            const date   = e.date.toLocaleDateString('ja-JP', {month:'numeric', day:'numeric', weekday:'short'});
-            const [left, right]         = e.isHome ? [e.ourTeam, e.oppTeam]  : [e.oppTeam,  e.ourTeam];
-            const [leftLogo, rightLogo] = e.isHome ? [e.ourLogo, e.oppLogo]  : [e.oppLogo, e.ourLogo];
-            const [ls, rs]              = e.isHome ? [us, them]              : [them, us];
-            const leftUs  = e.isHome;
-            const rightUs = !e.isHome;
-            return `
-            <div class="match-card ${cls}" onclick="openResultDetail(${idx})">
-                <div class="card-top">
-                    <span class="league">${e.league}</span>
-                    <span class="venue">${date}　${e.venue}</span>
-                </div>
-                <div class="card-body">
-                    <div class="card-team">
-                        <img src="${leftLogo}" alt="" onerror="this.style.display='none'">
-                        <span class="card-team-name${leftUs ? ' us' : ''}">${left}</span>
-                    </div>
-                    <div class="card-score">
-                        <div class="score-num">${ls}　${rs}</div>
-                        <span class="result-pill ${cls}">${label}</span>
-                    </div>
-                    <div class="card-team right">
-                        <img src="${rightLogo}" alt="" onerror="this.style.display='none'">
-                        <span class="card-team-name${rightUs ? ' us' : ''}">${right}</span>
-                    </div>
-                </div>
-            </div>`;
-        }).join('');
+    // 最後に終了した（または開催中の）試合＝直前の試合。1試合も終わっていなければ開幕戦
+    mwLatest = 0;
+    mwList.forEach((m, i) => { if (m.e.completed || eventStatus(m.ev).live) mwLatest = i; });
+    mwIndex  = mwLatest;
+    renderMatchweek();
+}
+
+function moveMatchweek(diff) {
+    const next = mwIndex + diff;
+    if (next < 0 || next >= mwList.length) return;
+    mwIndex = next;
+    renderMatchweek(diff > 0 ? 'right' : 'left');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function jumpMatchweek(i) {
+    if (i < 0 || i >= mwList.length || i === mwIndex) return;
+    const dir = i > mwIndex ? 'right' : 'left';
+    mwIndex = i;
+    renderMatchweek(dir);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+// 横スワイプでも前後の試合へ移動できるようにする
+let mwTouchX = 0, mwTouchY = 0;
+function mwTouchStart(ev) {
+    const t = ev.changedTouches[0];
+    mwTouchX = t.clientX;
+    mwTouchY = t.clientY;
+}
+function mwTouchEnd(ev) {
+    const t  = ev.changedTouches[0];
+    const dx = t.clientX - mwTouchX;
+    const dy = t.clientY - mwTouchY;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) moveMatchweek(dx < 0 ? 1 : -1);
+}
+
+function renderMatchweek(dir) {
+    const el = document.getElementById('tab-results');
+    const m  = mwList[mwIndex];
+    if (!el || !m) return;
+
+    const roundLabel = m.round === null ? m.e.league : `第${m.round + 1}節`;
+    const dateStr    = m.e.date.toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', weekday: 'short' });
+
+    const nav = `
+    <div class="mw-nav">
+        <button class="mw-btn" onclick="moveMatchweek(-1)" ${mwIndex === 0 ? 'disabled' : ''} title="前の試合">◀</button>
+        <div class="mw-label">
+            <div class="mw-round">${roundLabel}</div>
+            <div class="mw-date">${dateStr}　${mwIndex + 1} / ${mwList.length}</div>
+        </div>
+        <button class="mw-btn" onclick="moveMatchweek(1)" ${mwIndex === mwList.length - 1 ? 'disabled' : ''} title="次の試合">▶</button>
+    </div>`;
+
+    const back = mwIndex === mwLatest ? ''
+        : `<button class="mw-back" onclick="jumpMatchweek(${mwLatest})">直近の試合へ戻る</button>`;
+
+    // これから行われる試合は、天気・対戦成績・直近フォームを後追いで差し込む
+    const upcoming = !m.e.completed && !m.e.live;
+    const preview  = upcoming
+        ? `<div id="mw-preview">${mwPreviewCache[m.e.id] ?? '<div class="mw-preview-loading"><div class="spinner"></div></div>'}</div>`
+        : '';
+
+    el.innerHTML = nav + back + `
+    <div class="mw-view" ontouchstart="mwTouchStart(event)" ontouchend="mwTouchEnd(event)">
+        <div class="mw-slide${dir ? ' in-' + dir : ''}">${heroCard(m)}${preview}${otherFixtures(m)}</div>
+    </div>`;
+
+    if (upcoming && mwPreviewCache[m.e.id] === undefined) fillPreview(m, ++mwToken);
+}
+
+// 予定試合のプレビュー（旧「次の試合」タブの内容）
+let mwPreviewCache = {};   // eventId → HTML
+let mwToken = 0;           // 連打で古い取得結果が描画されるのを防ぐ
+
+async function fillPreview(m, token) {
+    const e = m.e;
+    let html = '';
+    try {
+        const info = await getSeasonInfo();
+        const [oppEvents, weatherSlots, ourAll] = await Promise.all([
+            e.oppId ? fetchTeamSchedule(e.oppId).catch(() => null) : Promise.resolve(null),
+            // キックオフ時刻が未定、または予報範囲(16日)より先の試合は天気を出さない
+            e.venue && e.timeValid ? fetchWeather(e.venue, e.date).catch(() => null) : Promise.resolve(null),
+            getSchedule().catch(() => []),
+        ]);
+
+        // 直近フォームは過去シーズンも含め、今季対戦成績は現行シーズンのみを使う
+        const past = mergeEvents(ourAll, mwList.map(x => x.ev))
+            .map(parseEvent).filter(p => p && p.completed && p.date < e.date);
+        const h2h  = past.filter(p => p.oppId === e.oppId && p.date >= (info.start || 0));
+
+        let oppResults = [];
+        if (oppEvents) {
+            const sb = scoreboardCache || [];
+            oppResults = mergeEvents(oppEvents, sb.filter(ev =>
+                    (ev.competitions?.[0]?.competitors || []).some(c => c.team?.id === e.oppId)))
+                .filter(ev => eventDateInfo(ev).date < e.date)
+                .map(ev => resultForTeam(ev, e.oppId))
+                .filter(Boolean)
+                .slice(-5);
+        }
+
+        html = buildWeather(weatherSlots, e.venue)
+             + buildH2H(h2h, e.oppTeam)
+             + buildFormBoth(past.slice(-5), oppResults, e.ourTeam, e.oppTeam);
+    } catch (err) {
+        html = '';
+    }
+
+    mwPreviewCache[e.id] = html;
+    if (token !== mwToken) return;   // 表示中の試合が変わっていれば描画しない
+    const slot = document.getElementById('mw-preview');
+    if (slot) slot.innerHTML = html;
+}
+
+// 柏の試合カード（終了ならスコアとタップで詳細、未消化ならキックオフ時刻）
+function heroCard(m) {
+    const e    = m.e;
+    const live = e.live;
+    const us   = e.ourScore, them = e.oppScore;
+    const hasScore = us !== null && them !== null;
+
+    const cls     = !hasScore ? 'upcoming' : us > them ? 'win' : us < them ? 'loss' : 'draw';
+    const pillCls = live ? 'live' : cls;
+    const label   = live ? 'LIVE'
+                  : !hasScore ? (e.isHome ? 'HOME' : 'AWAY')
+                  : us > them ? 'WIN' : us < them ? 'LOSE' : 'DRAW';
+
+    const [left, right]         = e.isHome ? [e.ourTeam, e.oppTeam] : [e.oppTeam, e.ourTeam];
+    const [leftLogo, rightLogo] = e.isHome ? [e.ourLogo, e.oppLogo] : [e.oppLogo, e.ourLogo];
+    const [ls, rs]              = e.isHome ? [us, them]             : [them, us];
+
+    const dateStr = e.date.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' });
+    const timeStr = e.timeValid
+        ? e.date.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })
+        : '時刻未定';
+
+    const center = hasScore
+        ? `<div class="mw-score">${ls}<span class="mw-score-sep">-</span>${rs}</div>`
+        : `<div class="mw-vs">VS</div><div class="mw-ko">${timeStr}</div>`;
+
+    const canOpen = hasScore;
+
+    return `
+    <div class="match-card mw-hero ${cls}${canOpen ? ' clickable' : ''}"${canOpen ? ` onclick="openResultDetail('${e.id}')"` : ''}>
+        <div class="card-top">
+            <span class="league">${e.league}</span>
+            <span class="venue">${dateStr}${e.timeValid ? '　' + timeStr : ''}</span>
+        </div>
+        <div class="mw-hero-body">
+            <div class="card-team">
+                <img src="${leftLogo}" alt="" onerror="this.style.display='none'">
+                <span class="card-team-name${e.isHome ? ' us' : ''}">${left}</span>
+            </div>
+            <div class="mw-hero-center">
+                ${center}
+                <span class="result-pill ${pillCls}">${label}</span>
+            </div>
+            <div class="card-team right">
+                <img src="${rightLogo}" alt="" onerror="this.style.display='none'">
+                <span class="card-team-name${e.isHome ? '' : ' us'}">${right}</span>
+            </div>
+        </div>
+        <div class="mw-hero-foot">
+            <span>${e.venue || ''}</span>
+            ${canOpen ? '<span class="mw-more">詳細を見る ›</span>' : ''}
+        </div>
+    </div>`;
+}
+
+// 同じ節の他会場（開催日ごとに区切る）
+function otherFixtures(m) {
+    if (!m.others.length) return '';
+    const byDate = new Map();
+    [...m.others]
+        .sort((a, b) => new Date(a.date) - new Date(b.date))
+        .forEach(ev => {
+            const key = eventDateInfo(ev).date.toLocaleDateString('ja-JP', { month: 'long', day: 'numeric', weekday: 'short' });
+            if (!byDate.has(key)) byDate.set(key, []);
+            byDate.get(key).push(ev);
+        });
+    return '<div class="section-label">同じ節の他会場</div>' +
+        [...byDate.entries()].map(([dateStr, evs]) =>
+            `<div class="round-date">${dateStr}</div>${evs.map(fixtureRow).join('')}`).join('');
+}
+
+// ---- 節の組み立て ----
+// ESPNは節番号を返さないため、日付順に「同じクラブが二度出ない・1節あたり(クラブ数÷2)試合」
+// という条件で詰めて節を組み立てる。延期試合も本来の節に吸収される。
+function buildRounds(events, perRound) {
+    const rounds = [];
+    [...events]
+        .sort((a, b) => new Date(a.date) - new Date(b.date))
+        .forEach(ev => {
+            const ids = (ev.competitions?.[0]?.competitors || []).map(c => c.team?.id);
+            const slot = rounds.find(r =>
+                (!perRound || r.events.length < perRound) && !ids.some(id => r.teams.has(id)));
+            if (slot) {
+                slot.events.push(ev);
+                ids.forEach(id => slot.teams.add(id));
+            } else {
+                rounds.push({ events: [ev], teams: new Set(ids) });
+            }
+        });
+    return rounds.map(r => r.events.sort((a, b) => new Date(a.date) - new Date(b.date)));
+}
+
+function eventStatus(ev) {
+    const t = ev.competitions?.[0]?.status?.type || {};
+    const name = t.name || '';
+    return {
+        done: t.completed === true || /FULL_TIME|FINAL/.test(name),
+        live: t.state === 'in',
+    };
+}
+
+function fixtureRow(ev) {
+    const comp = ev.competitions?.[0];
+    if (!comp) return '';
+    const home = comp.competitors?.find(c => c.homeAway === 'home');
+    const away = comp.competitors?.find(c => c.homeAway === 'away');
+    if (!home || !away) return '';
+
+    const { done, live } = eventStatus(ev);
+    const hs = home.score?.value != null ? Math.round(home.score.value) : null;
+    const as = away.score?.value != null ? Math.round(away.score.value) : null;
+    const hasScore = (done || live) && hs !== null && as !== null;
+
+    const mine = home.team?.id === TEAM_ID || away.team?.id === TEAM_ID;
+    const nameCls = (team, myScore, oppScore) => {
+        if (team?.id === TEAM_ID) return ' mine';
+        return hasScore && myScore > oppScore ? ' winner' : '';
+    };
+
+    const when = eventDateInfo(ev);
+    const middle = hasScore
+        ? `<div class="fixture-score${live ? ' fixture-live' : ''}">${hs} - ${as}</div>`
+        : `<div class="fixture-time">${when.timeValid
+              ? when.date.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })
+              : '時刻未定'}</div>`;
+
+    return `
+    <div class="fixture${mine ? ' mine' : ''}">
+        <div class="fixture-team">
+            <img src="${getLogo(home.team) || LOGO(home.team?.id)}" alt="" onerror="this.style.display='none'">
+            <span class="fixture-name${nameCls(home.team, hs, as)}">${toJP(home.team?.displayName)}</span>
+        </div>
+        ${middle}
+        <div class="fixture-team right">
+            <img src="${getLogo(away.team) || LOGO(away.team?.id)}" alt="" onerror="this.style.display='none'">
+            <span class="fixture-name${nameCls(away.team, as, hs)}">${toJP(away.team?.displayName)}</span>
+        </div>
+    </div>`;
 }
 
 // ---- 試合詳細モーダル ----
-function openResultDetail(idx) {
-    const e = resultEventsList[idx];
+function openResultDetail(id) {
+    const e = resultEventsMap[id];
     if (!e) return;
 
     const us = e.ourScore, them = e.oppScore;
     const cls   = us > them ? 'win' : us < them ? 'loss' : 'draw';
-    const label = us > them ? 'WIN' : us < them ? 'LOSE' : 'DRAW';
+    const label = e.live ? 'LIVE' : us > them ? 'WIN' : us < them ? 'LOSE' : 'DRAW';
     const dateStr = e.date.toLocaleDateString('ja-JP', {year:'numeric', month:'long', day:'numeric', weekday:'short'});
-    const timeStr = e.date.toLocaleTimeString('ja-JP', {hour:'2-digit', minute:'2-digit'});
+    const timeStr = e.timeValid ? e.date.toLocaleTimeString('ja-JP', {hour:'2-digit', minute:'2-digit'}) : '';
     const [homeName, awayName]   = e.isHome ? [e.ourTeam, e.oppTeam]  : [e.oppTeam, e.ourTeam];
     const [homeLogo, awayLogo]   = e.isHome ? [e.ourLogo, e.oppLogo]  : [e.oppLogo, e.ourLogo];
     const [homeScore, awayScore] = e.isHome ? [us, them]              : [them, us];
@@ -1085,7 +1600,7 @@ function openResultDetail(idx) {
             </div>
             <div class="modal-score-wrap">
                 <div class="modal-score-num">${homeScore}－${awayScore}</div>
-                <span class="result-pill ${cls}">${label}</span>
+                <span class="result-pill ${e.live ? 'live' : cls}">${label}</span>
             </div>
             <div class="modal-team">
                 <img src="${awayLogo}" alt="" onerror="this.style.display='none'">
@@ -1277,97 +1792,6 @@ function buildDetailBody(data, e) {
     return html || noDetailMsg();
 }
 
-// ---- 次の試合 ----
-async function showNext(el) {
-    const [teamData, schedule] = await Promise.all([
-        get('/teams/' + TEAM_ID),
-        getSchedule()
-    ]);
-    const events = teamData.team?.nextEvent || [];
-
-    if (!events.length) {
-        el.innerHTML = '<div class="error-box">予定されている試合はありません</div>';
-        return;
-    }
-
-    const allPast = schedule.map(parseEvent).filter(e => e && e.completed);
-    const p0 = parseEvent(events[0]);
-
-    // 相手の直近5試合と天気を並列取得
-    const [oppSchedData, weatherSlots] = await Promise.all([
-        p0?.oppId
-            ? get('/teams/' + p0.oppId + '/schedule').catch(() => null)
-            : Promise.resolve(null),
-        p0?.venue
-            ? fetchWeather(p0.venue, p0.date).catch(() => null)
-            : Promise.resolve(null),
-    ]);
-    let oppResults = [];
-    if (oppSchedData) {
-        oppResults = (oppSchedData.events || [])
-            .map(ev => resultForTeam(ev, p0.oppId))
-            .filter(Boolean)
-            .slice(-5);
-    }
-
-    el.innerHTML = events.map((ev, i) => {
-        const p = parseEvent(ev);
-        if (!p) return '';
-        const { date, league, isHome, ourTeam, oppTeam, ourLogo, oppLogo, venue, oppId } = p;
-        const dateStr = date.toLocaleDateString('ja-JP', {year:'numeric',month:'long',day:'numeric',weekday:'short'});
-        const timeStr = date.toLocaleTimeString('ja-JP', {hour:'2-digit', minute:'2-digit'});
-
-        if (i === 0) {
-            const h2h = allPast.filter(e => e.oppId === oppId);
-            return `
-            <div class="next-card">
-                <div class="next-card-stripe"></div>
-                <div class="next-card-body">
-                    <div class="next-card-label">${league} · 次の試合</div>
-                    <div class="next-teams">
-                        <div class="next-team">
-                            <img src="${ourLogo}" alt="" onerror="this.style.display='none'">
-                            <div class="next-team-name">${ourTeam}</div>
-                        </div>
-                        <div class="next-vs">VS</div>
-                        <div class="next-team">
-                            <img src="${oppLogo}" alt="" onerror="this.style.display='none'">
-                            <div class="next-team-name">${oppTeam}</div>
-                        </div>
-                    </div>
-                    <div class="next-info">
-                        <div class="next-date">${dateStr}</div>
-                        <div class="next-time">${timeStr} キックオフ</div>
-                        <div class="next-venue">${venue}</div>
-                        <span class="next-ha-badge">${isHome ? '🏠  ホームゲーム' : '✈️  アウェイゲーム'}</span>
-                    </div>
-                    ${buildWeather(weatherSlots, venue)}
-                    ${buildH2H(h2h, oppTeam)}
-                    ${buildFormBoth(allPast.slice(-5), oppResults, ourTeam, oppTeam)}
-                </div>
-            </div>`;
-        }
-
-        return `
-        <div class="match-card">
-            <div class="card-top">
-                <span class="league">${league}</span>
-                <span class="venue">${date.toLocaleDateString('ja-JP', {month:'numeric',day:'numeric',weekday:'short'})}　${timeStr}</span>
-            </div>
-            <div class="card-body">
-                <div class="card-team">
-                    <img src="${ourLogo}" alt="" onerror="this.style.display='none'">
-                    <span class="card-team-name us">${ourTeam}</span>
-                </div>
-                <div class="card-score" style="font-size:0.8rem;color:#444;font-weight:700">VS</div>
-                <div class="card-team right">
-                    <img src="${oppLogo}" alt="" onerror="this.style.display='none'">
-                    <span class="card-team-name">${oppTeam}</span>
-                </div>
-            </div>
-        </div>`;
-    }).join('');
-}
 
 // 任意チームの試合結果を返す（相手フォーム用）
 function resultForTeam(ev, teamId) {
@@ -1382,7 +1806,13 @@ function resultForTeam(ev, teamId) {
     const ms = me.score?.value != null  ? Math.round(me.score.value)  : NaN;
     const os = opp.score?.value != null ? Math.round(opp.score.value) : NaN;
     if (isNaN(ms) || isNaN(os)) return null;
-    return ms > os ? 'w' : ms < os ? 'l' : 'd';
+    return {
+        result:  ms > os ? 'w' : ms < os ? 'l' : 'd',
+        date:    eventDateInfo(ev).date,
+        oppTeam: toJP(opp.team?.displayName),
+        score:   `${ms}－${os}`,
+        isHome:  me.homeAway === 'home',
+    };
 }
 
 // 今季対戦成績（前回/前々回… + 右側に通算戦績）
@@ -1402,7 +1832,8 @@ function buildH2H(matches, oppTeam) {
     const rows = [...matches].reverse().map((e, i) => {
         const cls  = e.ourScore > e.oppScore ? 'w' : e.ourScore < e.oppScore ? 'l' : 'd';
         const lbl  = e.ourScore > e.oppScore ? 'W' : e.ourScore < e.oppScore ? 'L' : 'D';
-        const date = e.date.toLocaleDateString('ja-JP', {month:'numeric', day:'numeric'});
+        // 今季は年をまたぐため年（下2桁）まで出す
+        const date = `${String(e.date.getFullYear()).slice(2)}/${e.date.getMonth() + 1}/${e.date.getDate()}`;
         return `
         <div class="h2h-row">
             <span class="h2h-label">${LABELS[i] || (i+1)+'戦前'}</span>
@@ -1428,36 +1859,55 @@ function buildH2H(matches, oppTeam) {
     </div>`;
 }
 
-// 両チームの直近5試合フォーム
+// 両チームの直近5試合フォーム（古い順。各セルに開催日を添える）
 function buildFormBoth(ourMatches, oppResults, ourTeam, oppTeam) {
-    const pill = cls => `<div class="form-pill ${cls}">${cls.toUpperCase()}</div>`;
-    const ourPills = ourMatches.map(e =>
-        pill(e.ourScore > e.oppScore ? 'w' : e.ourScore < e.oppScore ? 'l' : 'd')
-    ).join('');
-    const oppPills = oppResults.map(r => pill(r)).join('');
-
     const shortName = n => n.replace(/F\.?C\.?|レイソル/g, '').trim().slice(0, 5);
+    const md   = d => `${d.getMonth() + 1}/${d.getDate()}`;
+    const ymd  = d => `${d.getFullYear()}/${md(d)}`;
+    const cell = (cls, date, title) => `
+        <div class="form-cell" title="${title}">
+            <div class="form-pill ${cls}">${cls.toUpperCase()}</div>
+            <div class="form-date">${md(date)}</div>
+            <div class="form-year">${date.getFullYear()}</div>
+        </div>`;
+
+    const ourCells = ourMatches.map(e => cell(
+        e.ourScore > e.oppScore ? 'w' : e.ourScore < e.oppScore ? 'l' : 'd',
+        e.date,
+        `${ymd(e.date)}　${e.isHome ? 'H' : 'A'} vs ${e.oppTeam}　${e.ourScore}－${e.oppScore}`
+    )).join('');
+
+    const oppCells = oppResults.map(r => cell(
+        r.result,
+        r.date,
+        `${ymd(r.date)}　${r.isHome ? 'H' : 'A'} vs ${r.oppTeam}　${r.score}`
+    )).join('');
 
     return `
     <div class="form-section">
-        <div class="form-label">直近5試合</div>
+        <div class="form-label">直近5試合<span class="form-note">左が古い</span></div>
         <div class="form-both-row">
             <span class="form-team-label us">${shortName(ourTeam)}</span>
-            <div class="form-row">${ourPills}</div>
+            <div class="form-row">${ourCells}</div>
         </div>
-        ${oppPills ? `
+        ${oppCells ? `
         <div class="form-both-row">
             <span class="form-team-label">${shortName(oppTeam)}</span>
-            <div class="form-row">${oppPills}</div>
+            <div class="form-row">${oppCells}</div>
         </div>` : ''}
     </div>`;
 }
 
 // ---- 順位表 ----
 async function showStandings(el) {
-    const url  = 'https://site.web.api.espn.com/apis/v2/sports/soccer/jpn.1/standings?season=2026&seasontype=1&type=0';
-    const res  = await fetch(url);
-    const data = await res.json();
+    const info = await getSeasonInfo();
+    const data = info.standings;
+    document.getElementById('season-title').textContent = info.label;
+
+    if (!data.children?.length && !data.standings) {
+        el.innerHTML = '<div class="error-box">順位表を取得できませんでした</div>';
+        return;
+    }
 
     // グループ（東/西）または単一テーブルの両方に対応
     const groups = data.children?.length
@@ -1532,7 +1982,7 @@ async function showStandings(el) {
         </table>`;
     }).join('');
 
-    el.innerHTML = `<div class="section-label">2026シーズン 順位表</div>` + html;
+    el.innerHTML = `<div class="section-label">${info.label}シーズン 順位表</div>` + html;
 
     // ヘッダーに柏レイソルの成績を反映
     const allEntries = groups.flatMap(g => g.standings?.entries || []);

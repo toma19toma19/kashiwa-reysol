@@ -4,7 +4,25 @@
       "PowerShell(winget *)",
       "PowerShell(Get-Content *)",
       "PowerShell(Test-Path *)",
-      "PowerShell(Start-Process -FilePath \"C:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\" -ArgumentList \"--version\" -Wait -NoNewWindow -PassThru 2>$null; $LASTEXITCODE)"
+      "PowerShell(Start-Process -FilePath \"C:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\" -ArgumentList \"--version\" -Wait -NoNewWindow -PassThru 2>$null; $LASTEXITCODE)",
+      "WebFetch(domain:site.api.espn.com)",
+      "WebFetch(domain:sports.core.api.espn.com)",
+      "WebFetch(domain:site.web.api.espn.com)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(curl -s \"https://site.web.api.espn.com/apis/v2/sports/soccer/jpn.1/standings?season=2026&seasontype=1&type=0\")",
+      "Bash(curl -s \"https://site.web.api.espn.com/apis/v2/sports/soccer/jpn.1/standings?season=2027&seasontype=1&type=0\")",
+      "Bash(python -c ' *)",
+      "Bash(curl -s \"https://site.api.espn.com/apis/site/v2/sports/soccer/jpn.1/teams/7476/schedule\" -o sch_default.json)",
+      "Bash(curl -s \"https://site.api.espn.com/apis/site/v2/sports/soccer/jpn.1/teams/7476/schedule?season=2026&seasontype=4\" -o sch_t4.json)",
+      "Bash(curl -s \"https://site.api.espn.com/apis/site/v2/sports/soccer/jpn.1/teams/7476\" -o team.json)",
+      "Bash(curl -s \"https://site.api.espn.com/apis/site/v2/sports/soccer/jpn.1/scoreboard?dates=20260808\")",
+      "Bash(curl -s \"https://site.api.espn.com/apis/site/v2/sports/soccer/jpn.1/scoreboard?dates=20260801-20260807\")",
+      "Bash(curl -s \"https://site.web.api.espn.com/apis/v2/sports/soccer/jpn.1/standings\")",
+      "Bash(curl -s \"https://site.web.api.espn.com/apis/v2/sports/soccer/jpn.1/standings?season=2026\")",
+      "Bash(curl -s \"https://site.api.espn.com/apis/site/v2/sports/soccer/jpn.1/scoreboard?dates=20260807-20260808\")",
+      "Bash(curl -s \"https://site.web.api.espn.com/apis/v2/sports/soccer/jpn.1/standings?type=0\")"
     ]
   }
 }
