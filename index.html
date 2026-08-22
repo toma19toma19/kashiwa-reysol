@@ -315,6 +315,8 @@
             color: #7a7f90;
         }
         .mw-more { color: #FFD700; font-weight: 700; flex-shrink: 0; }
+        .mw-ticket { color: #FFD700; font-weight: 700; flex-shrink: 0; text-align: right; }
+        .mw-ticket.tbd { color: #5f6474; font-weight: 600; }   /* 公式ページ未掲載 */
 
         /* ── 節ごとの試合一覧 ── */
         .round-date {
@@ -790,6 +792,85 @@
         .rank-top { color: #3ddc78 !important; }
         .rank-rel { color: #e74c3c !important; }
 
+        /* ── 順位推移（バンプチャート） ── */
+        .standings-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .standings-head .section-label { margin-bottom: 0; }
+        .rank-toggle {
+            background: #161820;
+            border: 1px solid #262a38;
+            color: #FFD700;
+            font-family: inherit;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            padding: 7px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin: 20px 4px 0 0;
+            white-space: nowrap;
+        }
+        .rank-toggle:hover { background: #1f222e; }
+        .rank-toggle.open  { background: #1c1a00; border-color: #4a4210; }
+        #rank-chart[hidden] { display: none; }
+        #rank-chart { margin-top: 12px; }
+        .rank-chart { margin-bottom: 6px; }
+        .rank-chart .section-label { margin-top: 0; }
+        .rank-scroll {
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+        .rank-svg { display: block; margin: 0 auto; }
+        .rank-grid  { stroke: #1a1c26; stroke-width: 1; }
+        .rank-axis  { fill: #565b6b; font-size: 9px; font-weight: 700; }
+        .rank-zone-top { fill: #2ecc71; opacity: 0.045; }
+        .rank-zone-rel { fill: #e74c3c; opacity: 0.045; }
+
+        @keyframes rankDraw { to { stroke-dashoffset: 0; } }
+        @keyframes rankPop  { from { opacity: 0; transform: scale(0.3); } to { opacity: 1; transform: none; } }
+        .rank-line {
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 2400;
+            stroke-dashoffset: 2400;
+            animation: rankDraw var(--dur) ease-out forwards;
+        }
+        .rank-dot {
+            opacity: 0;
+            animation: rankPop 0.32s ease-out forwards;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+        .rank-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 10px 2px 0;
+        }
+        .rank-chip {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: #161820;
+            border: 1px solid #1e2030;
+            border-radius: 20px;
+            padding: 4px 10px 4px 5px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: #aaa;
+        }
+        .rank-chip img { width: 16px; height: 16px; object-fit: contain; }
+        .rank-chip .swatch { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .rank-chip.me { border-color: #4a4210; background: #1c1a00; color: #FFD700; font-weight: 700; }
+        .rank-chip b { font-weight: 800; }
+
         /* ── 天気予報 ── */
         .weather-section {
             margin-top: 20px;
@@ -842,6 +923,132 @@
         .weather-prob.high { color: #e74c3c; }
         .weather-prob.mid  { color: #e67e22; }
 
+        /* ── REYSOL日程（縦スクロール一覧） ── */
+        .sch-month {
+            position: sticky;
+            top: 51px;
+            z-index: 8;
+            background: #0e0f13;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: #8a8f9f;
+            padding: 12px 4px 7px;
+            border-bottom: 1px solid #1a1c26;
+        }
+        .sch-next {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 16px 2px 12px;
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            color: #FFD700;
+        }
+        .sch-next::before, .sch-next::after { content: ''; flex: 1; height: 1px; }
+        .sch-next::before { background: linear-gradient(90deg, transparent, #5a5020); }
+        .sch-next::after  { background: linear-gradient(90deg, #5a5020, transparent); }
+
+        .sch-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #161820;
+            border-radius: 10px;
+            border-left: 3px solid #2a2d3a;
+            padding: 9px 10px;
+            margin: 6px 0;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .sch-row:hover  { background: #1a1c28; }
+        .sch-row:active { opacity: 0.8; }
+        .sch-row.win      { border-left-color: #2ecc71; }
+        .sch-row.loss     { border-left-color: #e74c3c; }
+        .sch-row.draw     { border-left-color: #555; }
+        .sch-row.upcoming { border-left-color: #FFD700; }
+        .sch-row.live     { border-left-color: #ff5a5a; }
+
+        .sch-meta { width: 58px; flex-shrink: 0; }
+        .sch-round {
+            display: block;
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: #7a7f90;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sch-date {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #ddd;
+            margin-top: 2px;
+            white-space: nowrap;
+        }
+        .sch-ha {
+            width: 19px; height: 19px;
+            border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.6rem;
+            font-weight: 800;
+            background: #1e2030;
+            color: #8a8f9f;
+            flex-shrink: 0;
+        }
+        .sch-ha.home { background: #2a2618; color: #FFD700; }
+        .sch-logo { width: 24px; height: 24px; object-fit: contain; flex-shrink: 0; }
+        .sch-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+        .sch-opp {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #ccc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sch-ticket {
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: #FFD700;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sch-ticket.tbd { color: #5f6474; font-weight: 600; }   /* 公式ページ未掲載 */
+        .sch-note {
+            font-size: 0.62rem;
+            color: #6a6f7d;
+            line-height: 1.7;
+            margin: -4px 4px 6px;
+        }
+        .sch-note a { color: #9a8a3a; }
+        .sch-right { width: 56px; flex-shrink: 0; text-align: right; }
+        .sch-score {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #eee;
+            letter-spacing: -0.02em;
+        }
+        .sch-time { font-size: 0.72rem; font-weight: 700; color: #777; }
+        .sch-pill {
+            width: 22px; height: 22px;
+            border-radius: 5px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .sch-pill.w { background: #0d3320; color: #2ecc71; }
+        .sch-pill.d { background: #252525; color: #888; }
+        .sch-pill.l { background: #330d0d; color: #e74c3c; }
+        .sch-pill.live { background: #3a1111; color: #ff5a5a; font-size: 0.5rem; }
+        .sch-pill.none { visibility: hidden; }   /* 行の高さを揃えるためのスペーサー */
+
         @media (max-width: 480px) {
             .tab { padding: 13px 10px; font-size: 0.75rem; }
             .team-logo { width: 76px; height: 76px; }
@@ -863,6 +1070,13 @@
             .fixture-score, .fixture-time { min-width: 52px; }
             .fixture-score { font-size: 0.95rem; }
             .fixture-time { font-size: 0.7rem; }
+            .sch-month { top: 45px; }
+            .sch-row { gap: 6px; padding: 9px 8px; }
+            .sch-meta { width: 52px; }
+            .sch-opp { font-size: 0.75rem; }
+            .sch-right { width: 50px; }
+            .sch-score { font-size: 0.9rem; }
+            .sch-time { font-size: 0.68rem; }
         }
     </style>
 </head>
@@ -890,6 +1104,7 @@
 <div class="tabs">
     <div class="tab active" onclick="switchTab('standings')">順位表</div>
     <div class="tab"        onclick="switchTab('results')">試合結果</div>
+    <div class="tab"        onclick="switchTab('schedule')">REYSOL日程</div>
 </div>
 
 <div class="content">
@@ -897,6 +1112,9 @@
         <div class="loading"><div class="spinner"></div><p>読み込み中…</p></div>
     </div>
     <div id="tab-results" class="tab-content">
+        <div class="loading"><div class="spinner"></div><p>読み込み中…</p></div>
+    </div>
+    <div id="tab-schedule" class="tab-content">
         <div class="loading"><div class="spinner"></div><p>読み込み中…</p></div>
     </div>
 </div>
@@ -1018,14 +1236,24 @@ function leagueJP(s) {
 }
 
 // ---- タブ ----
+const TABS   = ['standings', 'results', 'schedule'];   // .tab 要素の並び順と一致させること
 const loaded = {};
+const scrollPos = {};   // 縦に長いREYSOL日程は戻ってきたときの位置を保つ
+
 function switchTab(name) {
+    const cur = document.querySelector('.tab-content.active')?.id.replace('tab-', '');
+    if (cur) scrollPos[cur] = window.scrollY;
+
     document.querySelectorAll('.tab').forEach((el, i) =>
-        el.classList.toggle('active', ['standings','results'][i] === name));
+        el.classList.toggle('active', TABS[i] === name));
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.getElementById('tab-' + name).classList.add('active');
     window.scrollTo({ top: 0, behavior: 'instant' });
+
     if (!loaded[name]) { loaded[name] = true; load(name); }
+    else if (name === 'schedule' && scrollPos[name]) {
+        window.scrollTo({ top: scrollPos[name], behavior: 'instant' });
+    }
 }
 
 async function load(name) {
@@ -1033,6 +1261,7 @@ async function load(name) {
     try {
         if (name === 'standings') await showStandings(el);
         if (name === 'results')   await showResults(el);
+        if (name === 'schedule')  await showSchedule(el);
     } catch(e) {
         el.innerHTML = `<div class="error-box">エラー: ${e.message}</div>`;
     }
@@ -1239,14 +1468,17 @@ function buildWeather(slots, venue) {
         const { emoji } = wmoToText(s.code);
         const isKO    = s.offset === 0;
         const timeStr = s.time.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
-        const probCls = s.prob >= 70 ? 'high' : s.prob >= 40 ? 'mid' : '';
+        // Open-Meteoは1%刻みで返すが、元は30メンバーのアンサンブル（分解能 約3.3%）を
+        // 格子点間で補間した値なので、1の位に意味はない。5%刻みに丸めて表示する。
+        const prob    = Math.round(s.prob / 5) * 5;
+        const probCls = prob >= 70 ? 'high' : prob >= 40 ? 'mid' : '';
         return `
         <div class="weather-slot${isKO ? ' kickoff' : ''}">
             <div class="weather-time">${timeStr}</div>
             ${isKO ? '<div class="weather-ko">KO</div>' : '<div class="weather-ko-spacer"></div>'}
             <div class="weather-emoji">${emoji}</div>
             <div class="weather-temp">${s.temp !== null ? Math.round(s.temp) + '°' : '—'}</div>
-            <div class="weather-prob ${probCls}">${s.prob}%</div>
+            <div class="weather-prob ${probCls}">${prob}%</div>
         </div>`;
     }).join('');
     return `
@@ -1263,8 +1495,16 @@ let resultEventsMap = {};   // eventId → parseEvent の結果（詳細モー�
 let mwList   = [];          // [{ ev, e, round, others }] 日付昇順
 let mwIndex  = 0;
 let mwLatest = 0;           // 初期表示位置（直近の試合）
+let mwPending = null;       // REYSOL日程から指定された表示位置
 
-async function showResults(el) {
+// 試合結果タブとREYSOL日程タブが同じ mwList を使うので、構築は一度だけ行う
+let mwListPromise = null;
+function ensureMwList() {
+    if (!mwListPromise) mwListPromise = buildMwList();
+    return mwListPromise;
+}
+
+async function buildMwList() {
     const [events, info] = await Promise.all([getSeasonSchedule(), getSeasonInfo()]);
 
     // 同じ節の他会場を出すため、リーグ全体の日程から節を組み立てておく
@@ -1311,16 +1551,23 @@ async function showResults(el) {
             return { ...x, round, others };
         });
 
+    // 最後に終了した（または開催中の）試合＝直前の試合。1試合も終わっていなければ開幕戦
+    mwLatest = 0;
+    mwList.forEach((m, i) => { if (m.e.completed || eventStatus(m.ev).live) mwLatest = i; });
+
+    return info;
+}
+
+async function showResults(el) {
+    const info = await ensureMwList();
     if (!mwList.length) {
         el.innerHTML = `<div class="section-label">${info.label}シーズン 試合結果</div>` +
             '<div class="error-box">今シーズンの試合情報を取得できませんでした</div>';
         return;
     }
-
-    // 最後に終了した（または開催中の）試合＝直前の試合。1試合も終わっていなければ開幕戦
-    mwLatest = 0;
-    mwList.forEach((m, i) => { if (m.e.completed || eventStatus(m.ev).live) mwLatest = i; });
-    mwIndex  = mwLatest;
+    // REYSOL日程からの遷移ならその試合を、通常は直近の試合を開く
+    mwIndex   = mwPending !== null ? mwPending : mwLatest;
+    mwPending = null;
     renderMatchweek();
 }
 
@@ -1387,6 +1634,13 @@ function renderMatchweek(dir) {
     </div>`;
 
     if (upcoming && mwPreviewCache[m.e.id] === undefined) fillPreview(m, ++mwToken);
+
+    // 日程タブを開いていなくても🎟が確定値になるようにする
+    if (upcoming && m.e.isHome) getPresales().then(map => {
+        if (!Object.keys(map).length) return;
+        presaleMap = map;
+        refreshPresales();
+    });
 }
 
 // 予定試合のプレビュー（旧「次の試合」タブの内容）
@@ -1461,6 +1715,7 @@ function heroCard(m) {
         : `<div class="mw-vs">VS</div><div class="mw-ko">${timeStr}</div>`;
 
     const canOpen = hasScore;
+    const tkt     = presaleText(e);
 
     return `
     <div class="match-card mw-hero ${cls}${canOpen ? ' clickable' : ''}"${canOpen ? ` onclick="openResultDetail('${e.id}')"` : ''}>
@@ -1484,7 +1739,8 @@ function heroCard(m) {
         </div>
         <div class="mw-hero-foot">
             <span>${e.venue || ''}</span>
-            ${canOpen ? '<span class="mw-more">詳細を見る ›</span>' : ''}
+            ${canOpen ? '<span class="mw-more">詳細を見る ›</span>'
+                      : `<span class="mw-ticket${tkt && tkt.tbd ? ' tbd' : ''}" id="mw-ticket">${tkt ? tkt.text : ''}</span>`}
         </div>
     </div>`;
 }
@@ -1574,6 +1830,64 @@ function fixtureRow(ev) {
     </div>`;
 }
 
+// ---- 選手名の漢字表記 ----
+// ESPNは選手名をローマ字でしか返さない（漢字は復元できない）ため、
+// 公式サイトの選手一覧からローマ字→漢字の対応表を作る。柏の選手のみが対象で、
+// 相手チームの得点者はローマ字のまま表示する。
+const SQUAD_PAGE = 'https://www.reysol.co.jp/team/players/';
+const SQUAD_TTL  = 24 * 3600 * 1000;
+
+let squadJP = { byRomaji: {}, byJersey: {} };
+let squadPromise = null;
+
+function getSquadJP() {
+    if (!squadPromise) squadPromise = loadSquadJP().catch(() => ({ byRomaji: {}, byJersey: {} }));
+    return squadPromise;
+}
+
+async function loadSquadJP() {
+    try {
+        const hit = JSON.parse(sessionStorage.getItem('squadjp') || 'null');
+        if (hit && Date.now() - hit.at < SQUAD_TTL) return hit.map;
+    } catch(e) { /* sessionStorage が使えない環境では素通り */ }
+
+    const res = await fetch(TICKET_PROXY + SQUAD_PAGE);   // 公式サイトはCORS不許可なので経由する
+    if (!res.ok) throw new Error('squad page ' + res.status);
+    const map = parseSquad(await res.text());
+    if (!Object.keys(map.byRomaji).length) throw new Error('squad parse failed');
+    try {
+        sessionStorage.setItem('squadjp', JSON.stringify({ at: Date.now(), map }));
+    } catch(e) { /* 保存できなくても表示には影響しない */ }
+    return map;
+}
+
+// 「![Image 12: 小島 亨介](…/25.png) 25 小島 亨介 Ryosuke KOJIMA]」の形で並んでいる。
+// 漢字は画像のalt、背番号は画像ファイル名、ローマ字は行末から拾う。
+function parseSquad(md) {
+    const byRomaji = {}, byJersey = {};
+    const re = /!\[[^\]]*?:\s*([^\]\n]+?)\]\([^)\s]*?\/(\d{1,3})\.png\)([^\]\n]*)\]/g;
+    let m;
+    while ((m = re.exec(md))) {
+        const romaji = (m[3].match(/([A-Za-z][A-Za-z'’\-. ]*)\s*$/) || [])[1];
+        if (!romaji) continue;
+        byJersey[String(Number(m[2]))] = m[1].trim();
+        byRomaji[romajiKey(romaji)]    = m[1].trim();
+    }
+    return { byRomaji, byJersey };
+}
+
+const romajiKey = s => (s || '').toLowerCase().replace(/[^a-z ]/g, '').replace(/\s+/g, ' ').trim();
+
+// オウンゴールは相手選手の得点が柏に計上されるため team.id では判定できない。
+// ローマ字での一致を先に見て、駄目なら選手IDから柏のロースター経由で背番号を引く。
+function playerJP(name, athleteId, summary) {
+    const byName = squadJP.byRomaji[romajiKey(name)];
+    if (byName) return byName;
+    const ros = (summary?.rosters || []).find(r => String(r.team?.id) === TEAM_ID);
+    const ent = (ros?.roster || []).find(x => String(x.athlete?.id) === String(athleteId));
+    return (ent && squadJP.byJersey[String(Number(ent.jersey))]) || name;
+}
+
 // ---- 試合詳細モーダル ----
 function openResultDetail(id) {
     const e = resultEventsMap[id];
@@ -1633,8 +1947,13 @@ async function fetchAndRenderDetail(eventId, e) {
         return;
     }
     try {
-        const url  = `https://site.api.espn.com/apis/site/v2/sports/soccer/jpn.1/summary?event=${eventId}`;
-        const data = await (await fetch(url)).json();
+        const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/jpn.1/summary?event=${eventId}`;
+        // 得点者を漢字で出すため、選手名の対応表も並行して用意する
+        const [data, squad] = await Promise.all([
+            fetch(url).then(r => r.json()),
+            getSquadJP(),
+        ]);
+        squadJP = squad;
         // 開発用: コンソールでAPIレスポンスを確認できるようにする
         console.log('[ESPN summary]', JSON.stringify({
             scoringPlays: data.scoringPlays,
@@ -1704,9 +2023,11 @@ function buildDetailBody(data, e) {
                 return t === 'scorer'
                     || (typeof t === 'object' && /scor/i.test(t?.text || t?.id || ''));
             }) || pList[0];
-            const name = scorer?.athlete?.displayName
+            const rawName = scorer?.athlete?.displayName
                 || scorer?.displayName
                 || g.text || '不明';
+            // 柏の選手なら漢字へ。相手の選手は対応表に無いのでローマ字のまま
+            const name = playerJP(rawName, scorer?.athlete?.id, data);
 
             // team.id は文字列・数値どちらでも比較
             const isOur = String(g.team?.id ?? '') === String(TEAM_ID);
@@ -1898,6 +2219,353 @@ function buildFormBoth(ourMatches, oppResults, ourTeam, oppTeam) {
     </div>`;
 }
 
+// ---- アソシエイツ会員先行（一次販売） ----
+// 公式の販売日程ページは販売が近づいた試合から順に掲載され随時更新されるため、
+// アクセスのたびに取りに行く。ただし reysol.co.jp は CORS を許可していないので
+// テキスト抽出プロキシ（r.jina.ai）を経由してマークダウン化したものを読む。
+// 掲載されていない試合は「未発表」と表示する。日付の推測はしない。
+const TICKET_PAGE  = 'https://www.reysol.co.jp/ticket/tktscd.php';
+const TICKET_PROXY = 'https://r.jina.ai/';
+const TICKET_TTL   = 6 * 3600 * 1000;   // 同一セッション内の再取得を抑える
+
+let presaleMap = {};        // "M/D"（試合日） → { m, d, h, mi }（一次販売の開始日時）
+let presalePromise = null;
+
+function getPresales() {
+    if (!presalePromise) presalePromise = loadPresales().catch(() => ({}));
+    return presalePromise;
+}
+
+async function loadPresales() {
+    try {
+        const hit = JSON.parse(sessionStorage.getItem('presale') || 'null');
+        if (hit && Date.now() - hit.at < TICKET_TTL) return hit.map;
+    } catch(e) { /* sessionStorage が使えない環境では素通り */ }
+
+    const res = await fetch(TICKET_PROXY + TICKET_PAGE);
+    if (!res.ok) throw new Error('ticket page ' + res.status);
+    const map = parsePresales(await res.text());
+    try {
+        sessionStorage.setItem('presale', JSON.stringify({ at: Date.now(), map }));
+    } catch(e) { /* 保存できなくても表示には影響しない */ }
+    return map;
+}
+
+// 試合ごとのブロックから、試合日と表の先頭セル（＝アソシエイツ会員先行の一次販売）を拾う。
+// 表は「一次/二次/三次販売 | プレリク先行受付日 | 一般発売日」の並びで、先頭セルが一次販売。
+function parsePresales(md) {
+    const out = {};
+    md.split(/^#{2,4}\s+/m).forEach(block => {
+        const game = block.match(/［(\d{1,2})\/(\d{1,2})\([日月火水木金土]\)/);
+        if (!game) return;
+        const cell = block.match(/^\|\s*(\d{1,2})\/(\d{1,2})\([日月火水木金土]\)\s*(\d{1,2}):(\d{2})/m);
+        if (!cell) return;
+        out[`${+game[1]}/${+game[2]}`] = { m: +cell[1], d: +cell[2], h: +cell[3], mi: +cell[4] };
+    });
+    return out;
+}
+
+// アウェイはクラブ側での販売なので出さない。消化済みの試合も対象外。
+// 公式ページは販売が近い試合から順に載るため、未掲載の試合は「未発表」とする。
+// 日付を推測して出すことはしない（外れると発売日を逃がすため）。
+function presaleInfo(e) {
+    if (!e.isHome || e.completed || e.live) return null;
+    const hit = presaleMap[`${e.date.getMonth() + 1}/${e.date.getDate()}`];
+    if (!hit) return { date: null };
+    // 販売日は試合の数週間前なので、月が進んでいれば前年（年跨ぎシーズン対策）
+    const year = e.date.getFullYear() - (hit.m > e.date.getMonth() + 1 ? 1 : 0);
+    return { date: new Date(year, hit.m - 1, hit.d, hit.h, hit.mi) };
+}
+
+function presaleText(e) {
+    const p = presaleInfo(e);
+    if (!p)         return null;
+    if (!p.date)    return { tbd: true,  text: '🎟 販売日程 未発表' };
+    if (new Date() >= p.date) return { tbd: false, text: '🎟 アソシエイツ先行 発売中' };
+    const when = `${p.date.getMonth() + 1}/${p.date.getDate()}` +
+                 `(${'日月火水木金土'[p.date.getDay()]}) ` +
+                 `${p.date.getHours()}:${String(p.date.getMinutes()).padStart(2, '0')}`;
+    return { tbd: false, text: `🎟 一次販売 ${when}` };
+}
+
+// ---- REYSOL日程 ----
+// 柏の今季全試合（消化済み・未消化とも）を1本の時系列として縦に並べる。
+// 行をタップすると試合結果タブのその試合へ移動する。
+async function showSchedule(el) {
+    const info = await ensureMwList();
+    if (!mwList.length) {
+        el.innerHTML = `<div class="section-label">${info.label}シーズン REYSOL日程</div>` +
+            '<div class="error-box">今シーズンの試合情報を取得できませんでした</div>';
+        return;
+    }
+
+    // 未消化の先頭 ＝ 過去と未来の境目
+    const nextIdx = mwList.findIndex(m => !m.e.completed && !m.e.live);
+
+    let html = `<div class="section-label">${info.label}シーズン REYSOL日程</div>` +
+        '<div class="sch-note">🎟 はホームゲームのアソシエイツ会員先行（一次販売）開始日　' +
+        `<a href="${TICKET_PAGE}" target="_blank" rel="noopener">公式の販売日程 ›</a></div>`;
+    let curMonth = '';
+    mwList.forEach((m, i) => {
+        if (i === nextIdx && i > 0) html += '<div class="sch-next" id="sch-next">NEXT</div>';
+        const month = `${m.e.date.getFullYear()}年${m.e.date.getMonth() + 1}月`;
+        if (month !== curMonth) {
+            curMonth = month;
+            html += `<div class="sch-month">${month}</div>`;
+        }
+        html += scheduleRow(m, i);
+    });
+    el.innerHTML = html;
+
+    // 開いた瞬間に「次の試合」が見えている状態にする（全消化済みなら最終戦）
+    const anchor = document.getElementById('sch-next')
+                || document.getElementById('sch-row-' + mwLatest);
+    if (anchor) anchor.scrollIntoView({ block: 'center', behavior: 'instant' });
+
+    // 公式の販売日程は取得を待たずに描画し、届いたら「未発表」を発表済みの日付へ差し替える
+    getPresales().then(map => {
+        if (!Object.keys(map).length) return;
+        presaleMap = map;
+        refreshPresales();
+    });
+}
+
+// 取得後、表示中の各行と試合カードの🎟表示を更新する
+function refreshPresales() {
+    mwList.forEach((m, i) => {
+        const slot = document.getElementById('sch-tkt-' + i);
+        if (!slot) return;
+        const p = presaleText(m.e);
+        slot.textContent = p ? p.text : '';
+        slot.classList.toggle('tbd', !!p && p.tbd);
+    });
+    const hero = document.getElementById('mw-ticket');
+    if (hero && mwList[mwIndex]) {
+        const p = presaleText(mwList[mwIndex].e);
+        hero.textContent = p ? p.text : '';
+        hero.classList.toggle('tbd', !!p && p.tbd);
+    }
+}
+
+function scheduleRow(m, i) {
+    const e        = m.e;
+    const hasScore = e.ourScore !== null && e.oppScore !== null;
+    const cls      = e.live    ? 'live'
+                   : !hasScore ? 'upcoming'
+                   : e.ourScore > e.oppScore ? 'win'
+                   : e.ourScore < e.oppScore ? 'loss' : 'draw';
+
+    const roundLabel = m.round === null ? e.league : `第${m.round + 1}節`;
+    const dateStr    = e.date.toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', weekday: 'short' });
+
+    const right = hasScore
+        ? `<span class="sch-score">${e.ourScore} - ${e.oppScore}</span>`
+        : `<span class="sch-time">${e.timeValid
+              ? e.date.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })
+              : '時刻未定'}</span>`;
+
+    const pill = e.live    ? '<div class="sch-pill live">LIVE</div>'
+               : !hasScore ? '<div class="sch-pill none">-</div>'
+               : `<div class="sch-pill ${cls === 'win' ? 'w' : cls === 'loss' ? 'l' : 'd'}">${
+                    cls === 'win' ? 'W' : cls === 'loss' ? 'L' : 'D'}</div>`;
+
+    const tkt = presaleText(e);
+
+    return `
+    <div class="sch-row ${cls}" id="sch-row-${i}" onclick="openMatch(${i})">
+        <div class="sch-meta">
+            <span class="sch-round">${roundLabel}</span>
+            <span class="sch-date">${dateStr}</span>
+        </div>
+        <span class="sch-ha${e.isHome ? ' home' : ''}">${e.isHome ? 'H' : 'A'}</span>
+        <img class="sch-logo" src="${e.oppLogo}" alt="" onerror="this.style.display='none'">
+        <div class="sch-main">
+            <span class="sch-opp">${e.oppTeam}</span>
+            <span class="sch-ticket${tkt && tkt.tbd ? ' tbd' : ''}" id="sch-tkt-${i}">${tkt ? tkt.text : ''}</span>
+        </div>
+        <div class="sch-right">${right}</div>
+        ${pill}
+    </div>`;
+}
+
+// 日程の行 → 試合結果タブの該当試合へ
+function openMatch(i) {
+    const firstLoad = !loaded['results'];   // 初回なら showResults が mwPending を拾う
+    mwPending = i;
+    switchTab('results');
+    if (!firstLoad) {
+        mwIndex   = i;
+        mwPending = null;
+        renderMatchweek();
+    }
+}
+
+// ---- 順位推移（バンプチャート） ----
+// ESPNは節ごとの順位表を返さないため、リーグ全体の日程（試合結果タブと共用のキャッシュ）を
+// 積み上げて自前で再現する。最終時点の結果が公式の順位表と一致することを確認済み。
+//
+// 節の復元（buildRounds）は使わない。延期試合があると節番号が本来の時系列と前後し、
+// 日付軸に並べたときに月が行ったり来たりしてしまうため。
+// 代わりに消化済みの試合を日付順に並べ、3日以上空いたところで区切って1点とする。
+async function buildRankHistory() {
+    const info   = await getSeasonInfo();
+    const league = (await getLeagueScoreboard(info.start).catch(() => []))
+                       .filter(ev => isCurrentSeason(ev, info));
+
+    const val  = c => (c?.score?.value != null ? Math.round(c.score.value) : NaN);
+    const done = league
+        .filter(ev => eventStatus(ev).done)
+        .map(ev => ({ ev, cs: ev.competitions?.[0]?.competitors || [], date: eventDateInfo(ev).date }))
+        .filter(x => x.cs.length >= 2 && !isNaN(val(x.cs[0])) && !isNaN(val(x.cs[1])))
+        .sort((a, b) => a.date - b.date);
+
+    const tbl  = new Map();   // teamId → { team, pts, gf, ga }
+    const hist = [];          // [{ date, order: [teamId…] }] 日付昇順・順位順
+    let group  = [];
+
+    const flush = () => {
+        if (!group.length) return;
+        group.forEach(({ cs }) => {
+            [[cs[0], cs[1]], [cs[1], cs[0]]].forEach(([x, y]) => {
+                const id = x.team?.id;
+                if (!id) return;
+                const t = tbl.get(id) || { team: x.team, pts: 0, gf: 0, ga: 0 };
+                t.team = x.team;
+                t.gf  += val(x);
+                t.ga  += val(y);
+                t.pts += val(x) > val(y) ? 3 : val(x) === val(y) ? 1 : 0;
+                tbl.set(id, t);
+            });
+        });
+        const order = [...tbl.entries()]
+            .sort((p, q) => q[1].pts - p[1].pts
+                         || (q[1].gf - q[1].ga) - (p[1].gf - p[1].ga)
+                         || q[1].gf - p[1].gf)
+            .map(([id]) => id);
+        hist.push({ date: group[group.length - 1].date, order });
+        group = [];
+    };
+
+    done.forEach(x => {
+        if (group.length && x.date - group[group.length - 1].date >= 3 * 86400000) flush();
+        group.push(x);
+    });
+    flush();
+
+    return { hist, tbl, total: info.teamCount || tbl.size };
+}
+
+// 順位表の見出しから開閉する。初回に開いたときだけ組み立てる。
+let rankChartBuilt = false;
+async function toggleRankChart() {
+    const slot = document.getElementById('rank-chart');
+    const btn  = document.getElementById('rank-toggle');
+    if (!slot || !btn) return;
+
+    if (!slot.hasAttribute('hidden')) {          // 開いている → 閉じる
+        slot.setAttribute('hidden', '');
+        btn.classList.remove('open');
+        btn.textContent = '📈 順位推移';
+        return;
+    }
+    slot.removeAttribute('hidden');
+    btn.classList.add('open');
+    btn.textContent = '📈 閉じる';
+    if (rankChartBuilt) return;
+
+    slot.innerHTML = '<div class="mw-preview-loading"><div class="spinner"></div></div>';
+    try {
+        const d = await buildRankHistory();
+        slot.innerHTML = buildRankChart(d, slot.clientWidth)
+            || '<div class="sch-note">2節以上消化すると順位推移を表示できます</div>';
+        rankChartBuilt = true;
+    } catch(e) {
+        slot.innerHTML = '<div class="error-box">順位推移を取得できませんでした</div>';
+    }
+}
+
+const RANK_COLORS = ['#FFD700', '#4fc3f7', '#ab7df8', '#ff8a65'];
+const ymLabel = d => d ? `${d.getFullYear()}年${d.getMonth() + 1}月` : '';
+
+function buildRankChart({ hist, tbl, total }, avail) {
+    if (hist.length < 2) return '';   // 2節以上ないと推移にならない
+
+    // 柏＋現在の上位3クラブ
+    const latest = hist[hist.length - 1].order;
+    const picks  = [TEAM_ID, ...latest.filter(id => id !== TEAM_ID).slice(0, 3)]
+                       .filter(id => latest.includes(id));
+
+    const PAD_L = 24, PAD_R = 26, PAD_T = 14, PAD_B = 20, ROW = 14;
+    const span  = hist.length - 1;
+    const width = Math.max(avail || 340, 280);
+    // 既定は横幅いっぱいに広げ、節が増えて24pxを切ったら横スクロールに切り替わる
+    const STEP  = Math.min(160, Math.max(24, (width - PAD_L - PAD_R) / span));
+    const W = Math.round(PAD_L + PAD_R + span * STEP);
+    const H = PAD_T + PAD_B + (total - 1) * ROW;
+    const x = i => +(PAD_L + i * STEP).toFixed(1);
+    const y = r => +(PAD_T + (r - 1) * ROW).toFixed(1);
+    const dur = Math.min(2.2, Math.max(0.9, hist.length * 0.12));
+
+    // 上位3／下位3のゾーンと目盛り
+    let bg = `<rect class="rank-zone-top" x="0" y="${y(1) - ROW / 2}" width="${W}" height="${ROW * 3}"/>` +
+             `<rect class="rank-zone-rel" x="0" y="${y(total - 2) - ROW / 2}" width="${W}" height="${ROW * 3}"/>`;
+    for (let r = 1; r <= total; r += (r === 1 ? 4 : 5)) {
+        bg += `<line class="rank-grid" x1="${PAD_L}" y1="${y(r)}" x2="${W - PAD_R}" y2="${y(r)}"/>` +
+              `<text class="rank-axis" x="${PAD_L - 7}" y="${y(r) + 3}" text-anchor="end">${r}</text>`;
+    }
+    // 横軸は日付。ESPNは節番号を返さず buildRounds の復元は延期試合でずれるため、
+    // 月が変わった最初の点にだけ「M月」を置く（間隔が詰まる場合は間引く）。
+    let prevMonth = '', lastX = -999;
+    hist.forEach((h, i) => {
+        if (!h.date) return;
+        const key = `${h.date.getFullYear()}-${h.date.getMonth()}`;
+        if (key === prevMonth) return;
+        prevMonth = key;
+        if (x(i) - lastX < 30) return;
+        lastX = x(i);
+        bg += `<line class="rank-grid" x1="${x(i)}" y1="${PAD_T - 4}" x2="${x(i)}" y2="${H - PAD_B + 2}"/>` +
+              `<text class="rank-axis" x="${x(i)}" y="${H - 6}" text-anchor="middle">${h.date.getMonth() + 1}月</text>`;
+    });
+
+    // 線は後ろ、エンブレムは前。柏を最後に描いて最前面へ
+    const rankOf = (id, i) => hist[i].order.indexOf(id) + 1;
+    let lines = '', dots = '';
+    picks.forEach((id, n) => {
+        const me    = id === TEAM_ID;
+        const color = RANK_COLORS[n % RANK_COLORS.length];
+        const size  = me ? 21 : 15;
+        const pts   = hist.map((_, i) => `${x(i)},${y(rankOf(id, i))}`).join(' ');
+        lines += `<polyline class="rank-line" points="${pts}" stroke="${color}" stroke-width="${me ? 3 : 2}" opacity="${me ? 1 : 0.75}"/>`;
+        const logo = getLogo(tbl.get(id)?.team) || LOGO(id);
+        dots += hist.map((_, i) => {
+            const delay = (span ? i / span : 0) * dur;
+            return `<image class="rank-dot" href="${logo}" x="${x(i) - size / 2}" y="${y(rankOf(id, i)) - size / 2}"` +
+                   ` width="${size}" height="${size}" preserveAspectRatio="xMidYMid meet"` +
+                   ` style="animation-delay:${delay.toFixed(2)}s"/>`;
+        }).join('');
+    });
+
+    const legend = picks.map((id, n) => {
+        const t = tbl.get(id);
+        return `<span class="rank-chip${id === TEAM_ID ? ' me' : ''}">
+            <span class="swatch" style="background:${RANK_COLORS[n % RANK_COLORS.length]}"></span>
+            <img src="${getLogo(t?.team) || LOGO(id)}" alt="" onerror="this.style.display='none'">
+            ${toJP(t?.team?.displayName || '')}<b>${rankOf(id, hist.length - 1)}位</b></span>`;
+    }).join('');
+
+    return `
+    <div class="rank-chart">
+        <div class="section-label">順位推移　${ymLabel(hist[0].date)} → ${ymLabel(hist[hist.length - 1].date)}</div>
+        <div class="rank-scroll">
+            <svg class="rank-svg" width="${W}" height="${H}" style="--dur:${dur}s" role="img"
+                 aria-label="柏レイソルと上位クラブの順位推移">
+                ${bg}${lines}${dots}
+            </svg>
+        </div>
+        <div class="rank-legend">${legend}</div>
+    </div>`;
+}
+
 // ---- 順位表 ----
 async function showStandings(el) {
     const info = await getSeasonInfo();
@@ -1982,7 +2650,13 @@ async function showStandings(el) {
         </table>`;
     }).join('');
 
-    el.innerHTML = `<div class="section-label">${info.label}シーズン 順位表</div>` + html;
+    // 順位推移は常時は出さず、見出しのリンクから開いたときにだけ組み立てる
+    el.innerHTML = `
+        <div class="standings-head">
+            <div class="section-label">${info.label}シーズン 順位表</div>
+            <button class="rank-toggle" id="rank-toggle" onclick="toggleRankChart()">📈 順位推移</button>
+        </div>
+        <div id="rank-chart" hidden></div>` + html;
 
     // ヘッダーに柏レイソルの成績を反映
     const allEntries = groups.flatMap(g => g.standings?.entries || []);
