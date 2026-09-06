@@ -33,7 +33,14 @@
       "Bash(curl -s -A \"Mozilla/5.0\" -L \"https://www.reysol.co.jp/team/players/\" -o p.html)",
       "Bash(curl -s -m 40 \"https://r.jina.ai/https://www.reysol.co.jp/team/players/\" -o pj.txt)",
       "Bash(git checkout *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(gh pr *)",
+      "Bash(python -)",
+      "Bash(node check3.cjs)",
+      "Bash(curl -s --compressed --max-time 40 \"https://site.web.api.espn.com/apis/v2/sports/soccer/afc.champions/standings?type=0\")",
+      "Bash(python -c *)",
+      "Bash(python *)",
+      "Bash(node check6.cjs)"
     ]
   }
 }

@@ -792,6 +792,146 @@
         .rank-top { color: #3ddc78 !important; }
         .rank-rel { color: #e74c3c !important; }
 
+        /* ── 大会切り替え（順位表タブ） ── */
+        .comp-nav {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding: 14px 2px 4px;
+            scrollbar-width: none;
+        }
+        .comp-nav::-webkit-scrollbar { display: none; }
+        .comp-chip {
+            background: #161820;
+            border: 1px solid #262a38;
+            color: #9098aa;
+            font-family: inherit;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            padding: 8px 13px;
+            border-radius: 999px;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+        .comp-chip:hover   { background: #1f222e; color: #ccc; }
+        .comp-chip.active  { background: #2a2618; border-color: #5a5020; color: #FFD700; }
+        .comp-source {
+            font-size: 0.6rem;
+            color: #5f6474;
+            margin: 14px 4px 0;
+            line-height: 1.7;
+        }
+        .comp-source a { color: #7a7f90; }
+
+        /* ── トーナメント表 ── */
+        .brk-path-wrap { overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+        .brk-path-wrap::-webkit-scrollbar { display: none; }
+        .brk-path { display: flex; gap: 6px; align-items: stretch; }
+        .brk-step {
+            flex-shrink: 0;
+            width: 112px;
+            background: #161820;
+            border: 1px solid #262a38;
+            border-radius: 10px;
+            padding: 8px 9px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .brk-step.win  { border-color: #2b6b45; background: #12211a; }
+        .brk-step.loss { border-color: #7a3030; background: #1f1414; }
+        .brk-step.next { border-color: #5a5020; background: #1c1a0d; }
+        .brk-step-round { font-size: 0.58rem; font-weight: 800; color: #8a8f9f; letter-spacing: 0.04em; }
+        .brk-step-opp {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #ddd;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .brk-step-score { font-size: 0.68rem; font-weight: 700; color: #9098aa; }
+        .brk-step.win  .brk-step-score { color: #2ecc71; }
+        .brk-step.loss .brk-step-score { color: #e74c3c; }
+        .brk-step.next .brk-step-score { color: #FFD700; }
+
+        /* ── トーナメント表（組み合わせ） ── */
+        .brk-wrap {
+            position: relative;
+            overflow: auto;
+            max-height: 74vh;
+            margin-top: 4px;
+            border: 1px solid #1e2130;
+            border-radius: 12px;
+            background: #0f1118;
+            -webkit-overflow-scrolling: touch;
+        }
+        .brk-scroll { position: relative; }
+        .brk-heads {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            background: #12141c;
+            border-bottom: 1px solid #1e2130;
+        }
+        .brk-head {
+            flex-shrink: 0;
+            font-size: 0.62rem;
+            font-weight: 800;
+            color: #8a8f9f;
+            letter-spacing: 0.03em;
+            text-align: center;
+            padding: 7px 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .brk-head.me { color: #FFD700; }
+
+        .brk-canvas { position: relative; width: 100%; }
+        .brk-lines  { position: absolute; top: 0; left: 0; pointer-events: none; }
+        .brk-lines path    { fill: none; stroke: #262a38; stroke-width: 1.5; }
+        .brk-lines path.me { stroke: #6b5c1c; }
+
+        .brk-box {
+            position: absolute;
+            box-sizing: border-box;
+            background: #161820;
+            border: 1px solid #262a38;
+            border-radius: 8px;
+            padding: 3px 7px 4px;
+            overflow: hidden;
+        }
+        .brk-box.me { border-color: #6b5c1c; background: #1c1a0d; }
+        .brk-box-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 6px;
+            font-size: 0.54rem;
+            font-weight: 700;
+            color: #6a6f7d;
+            line-height: 1.5;
+        }
+        .brk-side {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.7rem;
+            line-height: 1.5;
+            color: #8a8f9f;
+        }
+        .brk-side.win  { color: #eee; font-weight: 700; }
+        .brk-side.mine { color: #FFD700; font-weight: 700; }
+        .brk-nm { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .brk-nm.tbd { color: #5f6474; }
+        .brk-pt  { flex-shrink: 0; font-weight: 800; letter-spacing: -0.02em; }
+        .brk-pkn { font-size: 0.54rem; font-weight: 700; color: #FFD700; margin-left: 1px; }
+        .brk-hint { font-size: 0.6rem; color: #5f6474; margin: 6px 4px 0; }
+
         /* ── 順位推移（バンプチャート） ── */
         .standings-head {
             display: flex;
@@ -970,17 +1110,30 @@
         .sch-row.upcoming { border-left-color: #FFD700; }
         .sch-row.live     { border-left-color: #ff5a5a; }
 
-        .sch-meta { width: 58px; flex-shrink: 0; }
+        .sch-meta { width: 66px; flex-shrink: 0; line-height: 1.25; }
         .sch-round {
-            display: block;
+            display: inline-block;
+            max-width: 100%;
+            padding: 2px 0;      /* バッジの有無で行の高さがずれないよう合わせておく */
             font-size: 0.6rem;
-            font-weight: 700;
-            color: #7a7f90;
+            font-weight: 800;
+            color: #9098aa;
             letter-spacing: 0.02em;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        /* 日程の大半はJ1なので節は素の文字のまま。カップ戦だけ大会色のバッジにして拾いやすくする */
+        .sch-round.cup {
+            padding: 2px 5px;
+            border-radius: 4px;
+            background: #24283a;
+            color: #aab2c8;
+        }
+        .sch-round.acl     { background: #14263f; color: #6fb2ff; }
+        .sch-round.emperor { background: #2c1f3f; color: #c093ff; }
+        .sch-round.levain  { background: #0f2f2a; color: #47d3b2; }
+        .sch-round.psm     { background: #2b2b31; color: #9aa0ae; }
         .sch-date {
             display: block;
             font-size: 0.72rem;
@@ -1072,7 +1225,7 @@
             .fixture-time { font-size: 0.7rem; }
             .sch-month { top: 45px; }
             .sch-row { gap: 6px; padding: 9px 8px; }
-            .sch-meta { width: 52px; }
+            .sch-meta { width: 60px; }
             .sch-opp { font-size: 0.75rem; }
             .sch-right { width: 50px; }
             .sch-score { font-size: 0.9rem; }
@@ -1159,6 +1312,23 @@ const TEAM_JP = {
     'V-Varen Nagasaki':'V・ファーレン長崎','Fagiano Okayama':'ファジアーノ岡山',
     'Kashima Antlers':'鹿島アントラーズ','JEF United Ichihara-Chiba':'ジェフ千葉',
     'Mito Hollyhock':'水戸ホーリーホック','Mito HollyHock':'水戸ホーリーホック',
+    // ACLエリートで対戦する海外クラブ（表記は公式サイトに合わせる）
+    'Jeonbuk Motors':'全北現代モータース','Jeonbuk Hyundai Motors':'全北現代モータース',
+    'Port FC':'ポートFC','Ratchaburi FC':'ラーチャブリーFC',
+    'Daejeon Hana Citizen':'大田ハナ・シチズン','Newcastle Jets':'ニューカッスル・ジェッツ',
+    'Cong An Hanoi':'コンアン・ハノイ','Buriram United':'ブリーラム・ユナイテッド',
+    'Pohang Steelers':'浦項スティーラーズ',
+    // ACLの順位表に並ぶ他クラブ（東地区）
+    'Beijing Guoan':'北京国安','Shanghai Port':'上海海港',
+    "Johor Darul Ta'zim":'ジョホール・ダルル・タクジム',
+    // 同（西地区）
+    'Al Hilal':'アル・ヒラル','Al Nassr':'アル・ナスル','Al Ittihad':'アル・イテハド',
+    'Al Ahli':'アル・アハリ','Al Ain':'アル・アイン','Al Sadd':'アル・サッド',
+    'Shabab Al-Ahli':'シャバブ・アル・アハリ','Al Gharafa':'アル・ガラファ',
+    'Al Wasl':'アル・ワスル','Al Shamal':'アル・シャマル','Al Qadsiah':'アル・カディシーヤ',
+    'Esteghlal':'エステグラル','Traktor Sazi FC':'トラクター',
+    'Pakhtakor Tashkent':'パフタコール','Neftchi Fergana':'ネフチ・フェルガナ',
+    'Air Force Club':'アル・クワ・アル・ジャウィヤ',
 };
 const VENUE_JP = {
     'Sankyo Frontier Kashiwa Stadium':'三協フロンテア柏スタジアム',
@@ -1189,6 +1359,19 @@ const VENUE_JP = {
     'Fukuda Denshi Arena':'フクダ電子アリーナ',
     "K's Denki Stadium Mito":'ケーズデンキスタジアム水戸',
     'Kasamatsu Stadium':'ケーズデンキスタジアム水戸',
+    // ACLエリートのアウェイ会場
+    'Jeonju World Cup Stadium':'全州ワールドカップ競技場',
+    'Dragon Solar Park':'ラーチャブリースタジアム',
+    'Central Coast Stadium':'セントラルコーストスタジアム',
+    'Steelyard Stadium':'浦項スティールヤード',
+};
+
+// 公式サイトの試合日程は会場を略称で載せるため、天気（STADIUM_COORDS）と
+// 表記を揃えられるよう正式名に直す。未知の略称はそのまま表示する。
+const VENUE_SHORT_JP = {
+    '柏':'三協フロンテア柏スタジアム','三協F柏':'三協フロンテア柏スタジアム',
+    'フクアリ':'フクダ電子アリーナ','MUFG国立':'国立競技場','国立':'国立競技場',
+    'Ｋスタ水戸':'ケーズデンキスタジアム水戸','ケーズ':'ケーズデンキスタジアム水戸',
 };
 
 // ---- スタジアム座標 ----
@@ -1326,19 +1509,166 @@ function normaliseScoreboardEvent(ev) {
     }] };
 }
 
+const ymd = d => `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+
+// シーズン開幕日から1年分。366日以上の範囲はESPNが400を返す
+function seasonRange(start) {
+    const from = start || new Date();
+    return `${ymd(from)}-${ymd(new Date(from.getTime() + 364 * 86400000))}`;
+}
+
 // チーム別スケジュールAPIはシーズン移行直後などデータ登録が遅れることがあるため、
 // リーグ全体のスコアボード（開幕日から1年分）を予備の取得元として持っておく
 let scoreboardCache = null;
 async function getLeagueScoreboard(start) {
     if (scoreboardCache) return scoreboardCache;
-    const from = start || new Date();
-    const to   = new Date(from.getTime() + 364 * 86400000); // 366日以上の範囲はESPNが400を返す
-    const ymd  = d => `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
-    const res  = await fetch(`${BASE}/scoreboard?dates=${ymd(from)}-${ymd(to)}&limit=1000`);
+    const res = await fetch(`${BASE}/scoreboard?dates=${seasonRange(start)}&limit=1000`);
     if (!res.ok) return [];   // 一時的な失敗をキャッシュしない
     const data = await res.json();
     scoreboardCache = (data.events || []).map(normaliseScoreboardEvent);
     return scoreboardCache;
+}
+
+// ---- カップ戦（ESPNが日程を持つもの） ----
+// ESPNのサッカーAPIに登録されている日本の大会は jpn.1 だけで、天皇杯とルヴァンカップは存在しない。
+// ACLは別リーグとして持っているので、スコアボードから柏の試合だけを抜き出して日程に混ぜる。
+// チーム別スケジュール（/teams/7476/schedule）はACLでは空を返すため使えない。
+const CUP_LEAGUES = [
+    { slug: 'afc.champions', label: 'ACLエリート' },
+    { slug: 'afc.cup',       label: 'ACL2' },
+];
+
+let cupPromise = null;
+function getCupEvents() {
+    if (!cupPromise) cupPromise = loadCupEvents().catch(() => []);
+    return cupPromise;
+}
+
+async function loadCupEvents() {
+    const info  = await getSeasonInfo();
+    const range = seasonRange(info.start);
+    const lists = await Promise.all(CUP_LEAGUES.map(async cup => {
+        const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/${cup.slug}` +
+                    `/scoreboard?dates=${range}&limit=1000`;
+        const res = await fetch(url).catch(() => null);
+        if (!res || !res.ok) return [];
+        const data = await res.json().catch(() => null);
+        return (data?.events || [])
+            .filter(ev => (ev.competitions?.[0]?.competitors || []).some(c => c.team?.id === TEAM_ID))
+            .map(ev => ({ ...normaliseScoreboardEvent(ev), leagueJP: cup.label }));
+    }));
+    return lists.flat();
+}
+
+// ---- 公式サイトの試合日程（ESPNが持たない大会） ----
+// 天皇杯とルヴァンカップはESPNにリーグ自体が存在しないため、公式サイトの試合日程ページから拾う。
+// r.jina.ai は既定でマークダウンを返すが、日付欄（.game-meta）が落ちてしまうので
+// x-respond-with: html を付けてHTMLのまま受け取り、DOMParserで読む
+// （このヘッダはプリフライトで許可されている）。
+// J1とACLはESPNから取るので、ここでは扱わない（同じ試合が二重に並ばないようにするため）。
+const SCHEDULE_PAGE = 'https://www.reysol.co.jp/game/results/';
+const OFFICIAL_SECTIONS = [
+    { id: 'levain',       label: 'ルヴァンカップ' },
+    { id: 'emperors-cup', label: '天皇杯' },
+    { id: 'preseason',    label: 'プレシーズン' },
+];
+
+let officialPromise = null;
+function getOfficialEvents() {
+    if (!officialPromise) officialPromise = loadOfficialEvents().catch(() => []);
+    return officialPromise;
+}
+
+async function loadOfficialEvents() {
+    try {
+        const hit = JSON.parse(sessionStorage.getItem('official') || 'null');
+        if (hit && Date.now() - hit.at < TICKET_TTL) return hit.events;
+    } catch(e) { /* sessionStorage が使えない環境では素通り */ }
+
+    const info = await getSeasonInfo();
+    const res  = await fetch(TICKET_PROXY + SCHEDULE_PAGE, { headers: { 'x-respond-with': 'html' } });
+    if (!res.ok) throw new Error('schedule page ' + res.status);
+    const events = parseOfficialSchedule(await res.text(), info);
+    try {
+        sessionStorage.setItem('official', JSON.stringify({ at: Date.now(), events }));
+    } catch(e) { /* 保存できなくても表示には影響しない */ }
+    return events;
+}
+
+function parseOfficialSchedule(html, info) {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const out = [];
+    OFFICIAL_SECTIONS.forEach(sec => {
+        const root = doc.getElementById(sec.id);
+        if (!root) return;
+        root.querySelectorAll('.game-item').forEach(item => {
+            const ev = officialEvent(item, sec.label, info);
+            if (ev) out.push(ev);
+        });
+    });
+    return out;
+}
+
+// 1試合分のブロックをESPNのイベントと同じ形に整える。
+// ESPNのサマリーAPIには存在しない試合なので synthetic を立て、詳細モーダルは開かせない。
+function officialEvent(item, label, info) {
+    const text = sel => item.querySelector(sel)?.textContent.trim() || '';
+    const md   = text('.game-date .date').match(/(\d{1,2})月(\d{1,2})日/);
+    if (!md) return null;
+
+    const month = +md[1], day = +md[2];
+    // 年跨ぎシーズンなので、開幕月より前の月は翌年の試合
+    const base  = info.start || new Date();
+    const year  = month >= base.getMonth() + 1 ? base.getFullYear() : base.getFullYear() + 1;
+
+    // 海外開催は「現地19:00／日本21:15」と併記されるため日本時間を優先する
+    const raw = text('.game-date .time');
+    const tm  = raw.match(/日本\s*(\d{1,2}):(\d{2})/) || raw.match(/(\d{1,2}):(\d{2})/);
+    const pad = n => String(n).padStart(2, '0');
+    const ymdStr = `${year}-${pad(month)}-${pad(day)}`;
+    const date   = tm ? `${ymdStr}T${pad(+tm[1])}:${tm[2]}+09:00` : `${ymdStr}T00:00+09:00`;
+
+    const isHome  = !!item.querySelector('.game-label')?.classList.contains('home');
+    const oppName = text('.team-name').replace(/（[^）]*）\s*$/, '').trim();
+    if (!oppName) return null;
+
+    const src     = item.querySelector('.team-logo img')?.getAttribute('src') || '';
+    const oppLogo = src ? new URL(src, SCHEDULE_PAGE).href : '';
+
+    const num  = sel => { const t = text(sel); return /^\d+$/.test(t) ? Number(t) : null; };
+    const ours = num('.numbers .score-myself');
+    const opps = num('.numbers .score-opponent');
+    const done = ours !== null && opps !== null;
+
+    const venue = text('.game-stadium-text');
+    const round = text('.game-section-text');
+    const pk    = text('.score p');   // 「（PK 5-4）」
+
+    const side = (home, name, logo, id, score) => ({
+        homeAway: home ? 'home' : 'away',
+        team: { id, displayName: name, logo },
+        score: { value: score },
+    });
+    const us   = side(isHome,  '柏レイソル', LOGO(TEAM_ID), TEAM_ID, ours);
+    const them = side(!isHome, oppName,      oppLogo,       '',      opps);
+
+    return {
+        id: 'rey-' + ymdStr.replace(/-/g, ''),
+        date,
+        synthetic: true,
+        leagueJP:  label,
+        note:      [round, pk].filter(Boolean).join('　'),
+        competitions: [{
+            timeValid: !!tm,
+            venue: { fullName: VENUE_SHORT_JP[venue] || venue },
+            status: { type: {
+                name:      done ? 'STATUS_FULL_TIME' : 'STATUS_SCHEDULED',
+                state:     done ? 'post' : 'pre',
+                completed: done,
+            } },
+            competitors: isHome ? [us, them] : [them, us],
+        }],
+    };
 }
 
 async function fetchTeamSchedule(teamId) {
@@ -1404,7 +1734,10 @@ function parseEvent(ev) {
         id:       ev.id || '',
         date:     when.date,
         timeValid: when.timeValid,
-        league:   leagueJP(ev.season?.displayName),
+        // カップ戦は取得元で大会名を確定させている（スコアボードは season.displayName を返さない）
+        league:   ev.leagueJP || leagueJP(ev.season?.displayName),
+        note:     ev.note || '',
+        synthetic: !!ev.synthetic,
         venue:    venueJP(comp.venue?.fullName || ''),
         isHome,
         ourTeam:  toJP(us?.team?.displayName   || '柏レイソル'),
@@ -1505,7 +1838,10 @@ function ensureMwList() {
 }
 
 async function buildMwList() {
-    const [events, info] = await Promise.all([getSeasonSchedule(), getSeasonInfo()]);
+    // カップ戦（ACL・天皇杯・ルヴァン）は取得に失敗してもJ1の日程は出せるようにする
+    const [events, info, cups, official] = await Promise.all([
+        getSeasonSchedule(), getSeasonInfo(), getCupEvents(), getOfficialEvents(),
+    ]);
 
     // 同じ節の他会場を出すため、リーグ全体の日程から節を組み立てておく
     const league = (await getLeagueScoreboard(info.start).catch(() => []))
@@ -1531,7 +1867,7 @@ async function buildMwList() {
         (ev.competitions?.[0]?.competitors || []).some(c => c.team?.id === TEAM_ID));
 
     resultEventsMap = {};
-    mwList = mergeEvents(mine, events)
+    mwList = mergeEvents(mine, events, cups, official)
         .map(ev => ({ ev, e: parseEvent(ev) }))
         .filter(x => x.e)
         .sort((a, b) => a.e.date - b.e.date)
@@ -1545,7 +1881,8 @@ async function buildMwList() {
                 x.e.oppScore = num(list.find(c => c.team?.id !== TEAM_ID));
             }
             resultEventsMap[x.e.id] = x.e;
-            const round  = roundOf(x.ev, x.e.date);
+            // 節があるのはJ1だけ。カップ戦に日付近接のフォールバックを効かせない
+            const round  = x.ev.leagueJP ? null : roundOf(x.ev, x.e.date);
             const others = round === null ? []
                 : rounds[round].filter(o => String(o.id) !== String(x.ev.id));
             return { ...x, round, others };
@@ -1662,7 +1999,8 @@ async function fillPreview(m, token) {
         // 直近フォームは過去シーズンも含め、今季対戦成績は現行シーズンのみを使う
         const past = mergeEvents(ourAll, mwList.map(x => x.ev))
             .map(parseEvent).filter(p => p && p.completed && p.date < e.date);
-        const h2h  = past.filter(p => p.oppId === e.oppId && p.date >= (info.start || 0));
+        // 公式サイト由来の試合は相手IDを持たないので、空ID同士で一致させない
+        const h2h  = past.filter(p => e.oppId && p.oppId === e.oppId && p.date >= (info.start || 0));
 
         let oppResults = [];
         if (oppEvents) {
@@ -1714,13 +2052,14 @@ function heroCard(m) {
         ? `<div class="mw-score">${ls}<span class="mw-score-sep">-</span>${rs}</div>`
         : `<div class="mw-vs">VS</div><div class="mw-ko">${timeStr}</div>`;
 
-    const canOpen = hasScore;
+    // 公式サイト由来の試合はESPNにサマリーがないので詳細は開けない
+    const canOpen = hasScore && !e.synthetic;
     const tkt     = presaleText(e);
 
     return `
     <div class="match-card mw-hero ${cls}${canOpen ? ' clickable' : ''}"${canOpen ? ` onclick="openResultDetail('${e.id}')"` : ''}>
         <div class="card-top">
-            <span class="league">${e.league}</span>
+            <span class="league">${e.league}${e.note ? '　' + e.note : ''}</span>
             <span class="venue">${dateStr}${e.timeValid ? '　' + timeStr : ''}</span>
         </div>
         <div class="mw-hero-body">
@@ -2347,6 +2686,15 @@ function refreshPresales() {
     }
 }
 
+// 日程行の大会欄は「第38節」が収まる幅しかないので、大会名は縮めたうえで色分けしたバッジにする
+const LEAGUE_BADGE = {
+    'ACLエリート':    { short: 'ACL',     cls: 'acl' },
+    'ACL2':           { short: 'ACL2',    cls: 'acl' },
+    '天皇杯':         { short: '天皇杯',   cls: 'emperor' },
+    'ルヴァンカップ':  { short: 'ルヴァン', cls: 'levain' },
+    'プレシーズン':    { short: 'PSM',     cls: 'psm' },
+};
+
 function scheduleRow(m, i) {
     const e        = m.e;
     const hasScore = e.ourScore !== null && e.oppScore !== null;
@@ -2355,7 +2703,9 @@ function scheduleRow(m, i) {
                    : e.ourScore > e.oppScore ? 'win'
                    : e.ourScore < e.oppScore ? 'loss' : 'draw';
 
-    const roundLabel = m.round === null ? e.league : `第${m.round + 1}節`;
+    const badge      = m.round === null ? (LEAGUE_BADGE[e.league] || { short: e.league, cls: '' }) : null;
+    const roundLabel = badge ? badge.short : `第${m.round + 1}節`;
+    const roundCls   = badge ? ` cup ${badge.cls}` : '';
     const dateStr    = e.date.toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', weekday: 'short' });
 
     const right = hasScore
@@ -2374,7 +2724,7 @@ function scheduleRow(m, i) {
     return `
     <div class="sch-row ${cls}" id="sch-row-${i}" onclick="openMatch(${i})">
         <div class="sch-meta">
-            <span class="sch-round">${roundLabel}</span>
+            <span class="sch-round${roundCls}">${roundLabel}</span>
             <span class="sch-date">${dateStr}</span>
         </div>
         <span class="sch-ha${e.isHome ? ' home' : ''}">${e.isHome ? 'H' : 'A'}</span>
@@ -2567,27 +2917,444 @@ function buildRankChart({ hist, tbl, total }, avail) {
 }
 
 // ---- 順位表 ----
+// ---- 他大会のデータ ----
+// ESPNが順位表を持っているのはACLだけなので、残りは大会の主催者側から取る：
+//   ルヴァン → Jリーグのデータサイト（検索結果のHTMLテーブル）
+//   天皇杯   → JFAの日程JSON（公式ページのjQueryプラグインが読んでいるもの）
+// どちらもCORSを許可していないため、チケット情報と同じく r.jina.ai を経由する。
+// r.jina.ai は本文の前に Title / URL Source などの行を足すので、JSONは最初の { から読む。
+const COMPETITIONS = [
+    { key: 'j1',      label: 'J1リーグ' },
+    { key: 'acl',     label: 'ACLエリート' },
+    { key: 'levain',  label: 'ルヴァンカップ' },
+    { key: 'emperor', label: '天皇杯' },
+];
+
+const ACL_STANDINGS_URL = 'https://site.web.api.espn.com/apis/v2/sports/soccer/afc.champions/standings?type=0';
+const LEVAIN_PAGE  = y => `https://data.j-league.or.jp/SFMS01/search?competition_years=${y}&competition_frame_ids=11`;
+const EMPEROR_JSON = y => `https://www.jfa.jp/match/emperorscup_${y}/match/schedule.json`;
+
+const compCache = {};
+function loadCompetition(key) {
+    if (!compCache[key]) compCache[key] = fetchCompetition(key);
+    return compCache[key];
+}
+
+async function fetchCompetition(key) {
+    // 大会年はシーズン開始年。年を跨ぐ大会もシーズン開始年で登録されている
+    const info = await getSeasonInfo();
+    if (key === 'acl') {
+        const res = await fetch(ACL_STANDINGS_URL);
+        if (!res.ok) throw new Error('ACLの順位表を取得できませんでした');
+        return res.json();
+    }
+    if (key === 'emperor') {
+        const res = await fetch(TICKET_PROXY + EMPEROR_JSON(info.year));
+        if (!res.ok) throw new Error('天皇杯の日程を取得できませんでした');
+        const raw = await res.text();
+        return parseEmperor(JSON.parse(raw.slice(raw.indexOf('{'))));
+    }
+    const res = await fetch(TICKET_PROXY + LEVAIN_PAGE(info.year));
+    if (!res.ok) throw new Error('ルヴァンカップの日程を取得できませんでした');
+    return parseLevain(await res.text());
+}
+
+// ラウンドは勝ち上がりの順に並べる。開催日順ではない点に注意：
+// ルヴァンはACL出場クラブが4回戦から登場するため、4回戦(10/3)が3回戦(10/14)より先に行われる。
+const ROUND_SEQ = ['１回戦', '２回戦', '３回戦', '４回戦', '５回戦', '６回戦',
+                   'ラウンド16', '準々決勝', '準決勝', '決勝'];
+const roundOrder = name => {
+    const i = ROUND_SEQ.findIndex(r => String(name).includes(r));
+    return i < 0 ? ROUND_SEQ.length : i;
+};
+
+function groupRounds(matches) {
+    const map = new Map();
+    matches.forEach(m => {
+        if (!map.has(m.round)) map.set(m.round, []);
+        map.get(m.round).push(m);
+    });
+    return [...map.entries()]
+        .map(([round, list]) => ({ round, matches: list }))
+        .sort((a, b) => roundOrder(a.round) - roundOrder(b.round));
+}
+
+const numOrNull = v => (v === '' || v == null ? null : Number(v));
+
+// 「No.71の勝者」「[39]w」＝まだ決まっていない枠。番号がそのまま前の試合を指しているので、
+// トーナメント表の枝はこれを辿って組む（bracketLayout）。
+const winnerRef  = re => s => { const m = re.exec(String(s ?? '')); return m ? +m[1] : null; };
+const winnerName = re => s => { const m = re.exec(String(s ?? '')); return m ? `No.${+m[1]} 勝者` : String(s ?? ''); };
+
+const EMP_REF = /No\.(\d+)\s*の勝者/;
+const empRef  = winnerRef(EMP_REF);
+const empName = winnerName(EMP_REF);
+
+// JFAの日程JSON。未確定の対戦は「No.71の勝者」、未定の日付は「未定」で入っている
+function parseEmperor(data) {
+    const list = data.matchScheduleList?.matchSchedule || [];
+    return groupRounds(list.map(m => {
+        const s  = m.score || {};
+        const md = String(m.matchDate || '').match(/(\d{1,2})\/(\d{1,2})$/);
+        return {
+            round:  m.matchTypeName || '',
+            no:     numOrNull(m.matchNumber),
+            date:   md ? `${+md[1]}/${+md[2]}` : '',
+            home:   empName(m.homeTeamName),
+            away:   empName(m.awayTeamName),
+            srcH:   empRef(m.homeTeamName),
+            srcA:   empRef(m.awayTeamName),
+            hs:     numOrNull(s.homeScore),
+            as:     numOrNull(s.awayScore),
+            hpk:    numOrNull(s.homePKScore),
+            apk:    numOrNull(s.awayPKScore),
+            winner: s.homeWinFlag ? 'home' : s.awayWinFlag ? 'away' : null,
+        };
+    }));
+}
+
+// r.jina.ai が返すマークダウンの表を読む。
+// 列は シーズン|大会|節|試合日|K/O|ホーム|スコア|アウェイ|スタジアム|入場者数|備考 で、
+// セルはリンク記法（[柏](url)）になっているので表記だけを取り出す。
+// 末尾の備考には「マッチＮｏ［２４］」（全角）が入っていて、これがトーナメント表の枝になる。
+const LEV_REF = /^\[(\d+)\]w$/;
+const levRef  = winnerRef(LEV_REF);
+const levName = winnerName(LEV_REF);
+const zen2han = s => String(s).replace(/[０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0));
+
+function parseLevain(md) {
+    const cell = s => s.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1').trim();
+    const out  = [];
+
+    md.split('\n').forEach(line => {
+        if (!line.startsWith('|')) return;
+        const c = line.split('|').slice(1, -1).map(cell);
+        if (c.length < 9) return;
+
+        const d = c[3].match(/(\d{2})\/(\d{1,2})\/(\d{1,2})/);   // 26/09/02(水)
+        if (!d) return;                                          // 見出し行・区切り行を弾く
+
+        const sc  = c[6].match(/^(\d+)\s*-\s*(\d+)/);          // 「0-0 (PK3-1)」「vs」
+        const pk  = c[6].match(/PK\s*(\d+)\s*-\s*(\d+)/);
+        const hs  = sc ? +sc[1] : null;
+        const as  = sc ? +sc[2] : null;
+        const hpk = pk ? +pk[1] : null;
+        const apk = pk ? +pk[2] : null;
+
+        let winner = null;
+        if (hs !== null) winner = hs > as ? 'home' : as > hs ? 'away'
+                                : hpk !== null ? (hpk > apk ? 'home' : 'away') : null;
+
+        // 「ＹＬＣ 1stラウンド」＋「４回戦第１日」→「1stラウンド ４回戦」
+        const stage = c[1].replace(/^ＹＬＣ\s*/, '').trim();
+        const sec   = c[2].replace(/第[０-９0-9一二三四五六七八九十]+日$/, '').trim();
+
+        const mn = (c[10] || '').match(/マッチＮｏ［([^］]+)］/);
+
+        out.push({
+            round: [stage, sec].filter(Boolean).join('　'),
+            no:    mn ? +zen2han(mn[1]) : null,
+            date:  `${+d[2]}/${+d[3]}`,
+            at:    new Date(2000 + +d[1], +d[2] - 1, +d[3]).getTime(),
+            home:  levName(c[5]), away: levName(c[7]),
+            srcH:  levRef(c[5]),  srcA:  levRef(c[7]),
+            hs, as, hpk, apk, winner,
+        });
+    });
+    // データサイトはラウンド順に返してくれないので、開催日順に並べ直してからまとめる
+    return groupRounds(out.sort((a, b) => a.at - b.at));
+}
+
+// ---- トーナメント表 ----
+const isKashiwa = n => n === '柏' || String(n || '').includes('柏レイソル');
+
+// 箱の大きさと列の間隔。連結線もこの値から引くので、CSSではなくここが基準
+const BRK_W     = 160;                 // 箱の幅
+const BRK_H     = 58;                  // 箱の高さ
+const BRK_GAP   = 46;                  // 列と列の間（連結線を通す幅）
+const BRK_PITCH = BRK_H + 12;          // 同じ列で箱を並べるときの最小間隔
+
+const brkKids = m => [m.kidH, m.kidA].filter(Boolean);
+
+// 各枠に「前の試合」をぶら下げて木にする。
+// まだ決まっていない枠は No.39 のような番号で前の試合を指しているのでそれを辿り、
+// 既に決まっている枠は前ラウンドで同じクラブが勝った試合を探して結ぶ
+// （勝ち上がったクラブの名前に置き換わってしまい、番号が残らないため）。
+function linkBracket(rounds) {
+    const byNo = new Map();
+    rounds.forEach((r, ri) => r.matches.forEach(m => {
+        m.col = ri;
+        if (m.no != null) byNo.set(m.no, m);
+    }));
+
+    rounds.forEach((r, ri) => {
+        const winners = new Map();
+        if (ri) rounds[ri - 1].matches.forEach(m => {
+            const w = m.winner === 'home' ? m.home : m.winner === 'away' ? m.away : null;
+            if (w) winners.set(w, m);
+        });
+        r.matches.forEach(m => {
+            m.kidH = (m.srcH != null && byNo.get(m.srcH)) || winners.get(m.home) || null;
+            m.kidA = (m.srcA != null && byNo.get(m.srcA)) || winners.get(m.away) || null;
+        });
+    });
+}
+
+// 木の縦位置を決める。葉（前の試合がない枠）を上から順に並べ、
+// 親は子の中央に置く、という普通のトーナメント表の並べ方。
+function bracketLayout(rounds) {
+    linkBracket(rounds);
+
+    const all      = rounds.flatMap(r => r.matches);
+    const parented = new Set();
+    all.forEach(m => brkKids(m).forEach(k => parented.add(k)));
+
+    const y = new Map();
+    let slot = 0;
+    const walk = m => {
+        if (y.has(m)) return;
+        y.set(m, 0);                                    // 万一の循環参照でも止まらないように先に置く
+        const ys = brkKids(m).map(k => { walk(k); return y.get(k); });
+        y.set(m, ys.length ? (Math.min(...ys) + Math.max(...ys)) / 2 : slot++ * BRK_PITCH);
+    };
+    // 決勝側（列が右の根）から辿ると、葉が組み合わせ表どおりの順に上から並ぶ
+    all.filter(m => !parented.has(m))
+       .sort((a, b) => b.col - a.col || (a.no || 0) - (b.no || 0))
+       .forEach(walk);
+    all.forEach(walk);                                  // どこにも繋がらない試合も拾う
+
+    // 左の列から順に、確定した子の中央へ寄せ直してから重なりをほどく
+    rounds.forEach(r => {
+        const list = r.matches.slice();
+        list.forEach(m => {
+            const ys = brkKids(m).map(k => y.get(k));
+            if (ys.length) y.set(m, (Math.min(...ys) + Math.max(...ys)) / 2);
+        });
+        list.sort((a, b) => y.get(a) - y.get(b));
+        list.forEach((m, i) => {
+            if (i) y.set(m, Math.max(y.get(m), y.get(list[i - 1]) + BRK_PITCH));
+        });
+    });
+
+    const top = Math.min(...all.map(m => y.get(m)));
+    all.forEach(m => y.set(m, Math.round(y.get(m) - top)));
+    return y;
+}
+
+function bracketHtml(rounds, key, year) {
+    if (!rounds.length) return '<div class="error-box">日程を取得できませんでした</div>';
+
+    const label  = key === 'levain' ? 'ルヴァンカップ' : '天皇杯';
+    const source = key === 'levain'
+        ? '出典: <a href="https://data.j-league.or.jp/SFMS01/" target="_blank" rel="noopener">Ｊリーグ データサイト</a>'
+        : `出典: <a href="https://www.jfa.jp/match/emperorscup_${year}/schedule_result/" target="_blank" rel="noopener">JFA 天皇杯 日程・結果</a>`;
+
+    // 柏の勝ち上がり。まだ組み合わせが決まっていないラウンドはここには出ない
+    const steps = [];
+    rounds.forEach(r => r.matches.forEach(m => {
+        const home = isKashiwa(m.home), away = isKashiwa(m.away);
+        if (!home && !away) return;
+
+        const opp    = home ? m.away : m.home;
+        const us     = home ? m.hs  : m.as;
+        const them   = home ? m.as  : m.hs;
+        const upk    = home ? m.hpk : m.apk;
+        const tpk    = home ? m.apk : m.hpk;
+        const played = us !== null && them !== null;
+        const won    = m.winner === (home ? 'home' : 'away');
+
+        const cls   = !played ? 'next' : won ? 'win' : 'loss';
+        const score = !played ? (m.date || '日程未定')
+            : `${won ? '○' : '●'} ${us}-${them}` + (upk !== null ? `（PK${upk}-${tpk}）` : '');
+
+        steps.push(`
+        <div class="brk-step ${cls}">
+            <div class="brk-step-round">${r.round}</div>
+            <div class="brk-step-opp">${opp}</div>
+            <div class="brk-step-score">${score}</div>
+        </div>`);
+    }));
+
+    const path = steps.length ? `
+        <div class="section-label">柏レイソルの勝ち上がり</div>
+        <div class="brk-path-wrap"><div class="brk-path">${steps.join('')}</div></div>` : '';
+
+    // 組み合わせ表。左から右へ勝ち上がる形で、枠と枠を連結線で結ぶ
+    const y      = bracketLayout(rounds);
+    const all    = rounds.flatMap(r => r.matches);
+    const colX   = c => c * (BRK_W + BRK_GAP);
+    const width  = colX(rounds.length - 1) + BRK_W;
+    const height = Math.max(...all.map(m => y.get(m))) + BRK_H;
+
+    const heads = rounds.map(r => {
+        const mine = r.matches.some(m => isKashiwa(m.home) || isKashiwa(m.away));
+        // 「1stラウンド　２回戦」は列見出しには長いので、ラウンド名だけを出す
+        const head = r.round.split('　').pop();
+        return `<div class="brk-head${mine ? ' me' : ''}" style="width:${BRK_W}px">${head}</div>`;
+    }).join('');
+
+    const lines = [];
+    all.forEach(m => brkKids(m).forEach(k => {
+        const x1 = colX(k.col) + BRK_W, y1 = y.get(k) + BRK_H / 2;
+        const x2 = colX(m.col),         y2 = y.get(m) + BRK_H / 2;
+        const mid  = x1 + (x2 - x1) / 2;
+        const mine = [k, m].some(t => isKashiwa(t.home) || isKashiwa(t.away));
+        lines.push(`<path class="${mine ? 'me' : ''}" d="M${x1} ${y1}H${mid}V${y2}H${x2}"/>`);
+    }));
+
+    const boxes = all.map(m => bracketBox(m, colX(m.col), y.get(m))).join('');
+
+    const bracket = `
+        <div class="section-label">組み合わせ</div>
+        <div class="brk-wrap">
+            <div class="brk-scroll" style="width:${width}px">
+                <div class="brk-heads" style="gap:${BRK_GAP}px">${heads}</div>
+                <div class="brk-canvas" style="height:${height}px">
+                    <svg class="brk-lines" width="${width}" height="${height}">${lines.join('')}</svg>
+                    ${boxes}
+                </div>
+            </div>
+        </div>
+        <div class="brk-hint">縦横にスクロールできます</div>`;
+
+    return `<div class="section-label">${label} トーナメント表</div>` + path + bracket
+        + `<div class="comp-source">${source}</div>`;
+}
+
+function bracketBox(m, x, top) {
+    const mine   = isKashiwa(m.home) || isKashiwa(m.away);
+    const played = m.hs !== null && m.as !== null;
+
+    const side = (name, sc, pk, key) => {
+        const cls = isKashiwa(name) ? ' mine' : played && m.winner === key ? ' win' : '';
+        const tbd = /^No\.\d+ 勝者$/.test(name) ? ' tbd' : '';
+        const pks = played && pk !== null ? `<span class="brk-pkn">(${pk})</span>` : '';
+        return `<div class="brk-side${cls}">
+            <span class="brk-nm${tbd}">${name || '未定'}</span>
+            <span class="brk-pt">${played ? sc : ''}${pks}</span>
+        </div>`;
+    };
+
+    return `<div class="brk-box${mine ? ' me' : ''}"
+                 style="left:${x}px;top:${top}px;width:${BRK_W}px;height:${BRK_H}px">
+        <div class="brk-box-top">
+            <span>${m.no != null ? 'No.' + m.no : ''}</span>
+            <span>${m.date || '日程未定'}</span>
+        </div>
+        ${side(m.home, m.hs, m.hpk, 'home')}
+        ${side(m.away, m.as, m.apk, 'away')}
+    </div>`;
+}
+
+// 表は横にも縦にも広いので、柏が一番勝ち上がっている試合を中央に置いた状態で開く
+function focusBracket() {
+    const wrap = document.querySelector('#comp-body .brk-wrap');
+    const mine = wrap && wrap.querySelectorAll('.brk-box.me');
+    if (!mine || !mine.length) return;
+
+    const box = mine[mine.length - 1];
+    const w   = wrap.getBoundingClientRect();
+    const b   = box.getBoundingClientRect();
+    wrap.scrollLeft += b.left - w.left - (w.width  - b.width)  / 2;
+    wrap.scrollTop  += b.top  - w.top  - (w.height - b.height) / 2;
+}
+
+// 順位表タブは大会をチップで切り替える。J1以外は選ばれたときに初めて取りに行く。
+let compTab   = 'j1';
+let compToken = 0;
+
 async function showStandings(el) {
     const info = await getSeasonInfo();
-    const data = info.standings;
     document.getElementById('season-title').textContent = info.label;
+    updateHeaderStats(info);
 
-    if (!data.children?.length && !data.standings) {
-        el.innerHTML = '<div class="error-box">順位表を取得できませんでした</div>';
-        return;
+    el.innerHTML = `
+        <div class="comp-nav">${COMPETITIONS.map(c =>
+            `<button class="comp-chip${c.key === compTab ? ' active' : ''}"
+                     onclick="switchComp('${c.key}')">${c.label}</button>`).join('')}</div>
+        <div id="comp-body"></div>`;
+    renderComp();
+}
+
+function switchComp(key) {
+    if (key === compTab) return;
+    compTab = key;
+    document.querySelectorAll('.comp-chip').forEach((btn, i) =>
+        btn.classList.toggle('active', COMPETITIONS[i].key === key));
+    renderComp();
+}
+
+async function renderComp() {
+    const body = document.getElementById('comp-body');
+    if (!body) return;
+
+    if (compTab === 'j1') { body.innerHTML = await j1StandingsHtml(); return; }
+
+    const key   = compTab;
+    const token = ++compToken;
+    body.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+    try {
+        const [data, info] = await Promise.all([loadCompetition(key), getSeasonInfo()]);
+        if (token !== compToken) return;   // 描画待ちの間に切り替えられていたら捨てる
+        if (key === 'acl') {
+            body.innerHTML = aclStandingsHtml(data);
+        } else {
+            body.innerHTML = bracketHtml(data, key, info.year);
+            focusBracket();                // 柏の位置までスクロールしてから見せる
+        }
+    } catch (err) {
+        delete compCache[key];             // 一時的な失敗をキャッシュしない
+        if (token !== compToken) return;
+        body.innerHTML = `<div class="error-box">${err.message || '取得できませんでした'}</div>`;
     }
+}
 
-    // グループ（東/西）または単一テーブルの両方に対応
+function sv(stats, name) {
+    const s = (stats || []).find(x => x.name === name);
+    return s ? Math.round(s.value) : 0;
+}
+
+// J1（既に取得済みのシーズン情報から描く）。順位推移は見出しのボタンから開く
+async function j1StandingsHtml() {
+    const info = await getSeasonInfo();
+    const data = info.standings;
+    if (!data.children?.length && !data.standings) {
+        return '<div class="error-box">順位表を取得できませんでした</div>';
+    }
     const groups = data.children?.length
         ? data.children
         : [{ name: 'J1リーグ', standings: data.standings }];
 
-    function sv(stats, name) {
-        const s = (stats || []).find(x => x.name === name);
-        return s ? Math.round(s.value) : 0;
-    }
+    rankChartBuilt = false;   // タブを描き直すとグラフのDOMも消えるので組み立て直させる
+    return `
+        <div class="standings-head">
+            <div class="section-label">${info.label}シーズン 順位表</div>
+            <button class="rank-toggle" id="rank-toggle" onclick="toggleRankChart()">📈 順位推移</button>
+        </div>
+        <div id="rank-chart" hidden></div>` + standingsTable(groups, { top: 3, rel: 3 });
+}
 
-    const html = groups.map(group => {
+// ACLエリートのリーグステージ。柏のいる地区を先に出す
+const ACL_GROUP_JP = { East: '東地区', West: '西地区' };
+
+function aclStandingsHtml(data) {
+    const groups = (data.children || []).slice();
+    if (!groups.length) return '<div class="error-box">ACLの順位表を取得できませんでした</div>';
+
+    const hasUs = g => (g.standings?.entries || []).some(e => e.team?.id === TEAM_ID) ? 1 : 0;
+    groups.sort((a, b) => hasUs(b) - hasUs(a));
+
+    return '<div class="section-label">ACLエリート リーグステージ</div>'
+        + standingsTable(groups.map(g => ({ ...g, name: ACL_GROUP_JP[g.name] || g.name })),
+                         { top: 8, rel: 0 })
+        + '<div class="comp-source">各地区の上位8クラブがラウンド16に進出　出典: ESPN</div>';
+}
+
+// J1・ACLで共通の順位表。top位までを強調、下位rel位を降格圏として色を変える
+function standingsTable(groups, opts) {
+    const top = opts.top, rel = opts.rel;
+
+    return groups.map(group => {
         const entries = (group.standings?.entries || [])
             .slice()
             .sort((a, b) => sv(a.stats, 'rank') - sv(b.stats, 'rank'));
@@ -2609,7 +3376,8 @@ async function showStandings(el) {
             const logo  = getLogo(team) || LOGO(team.id);
             const name  = toJP(team.displayName || '');
 
-            const rankCls = rank <= 3 ? 'rank-top' : rank > total - 3 ? 'rank-rel' : '';
+            const rankCls = rank <= top ? 'rank-top'
+                          : rel && rank > total - rel ? 'rank-rel' : '';
             const gdStr   = gd > 0 ? '+' + gd : String(gd);
 
             return `
@@ -2649,32 +3417,27 @@ async function showStandings(el) {
             <tbody>${rows}</tbody>
         </table>`;
     }).join('');
+}
 
-    // 順位推移は常時は出さず、見出しのリンクから開いたときにだけ組み立てる
-    el.innerHTML = `
-        <div class="standings-head">
-            <div class="section-label">${info.label}シーズン 順位表</div>
-            <button class="rank-toggle" id="rank-toggle" onclick="toggleRankChart()">📈 順位推移</button>
-        </div>
-        <div id="rank-chart" hidden></div>` + html;
+// ヘッダーの成績はJ1のものを出す（他大会に切り替えても書き換えない）
+function updateHeaderStats(info) {
+    const data   = info.standings || {};
+    const groups = data.children?.length ? data.children : [{ standings: data.standings }];
+    const me = groups.flatMap(g => g.standings?.entries || []).find(e => e.team?.id === TEAM_ID);
+    if (!me) return;
 
-    // ヘッダーに柏レイソルの成績を反映
-    const allEntries = groups.flatMap(g => g.standings?.entries || []);
-    const me = allEntries.find(e => e.team?.id === TEAM_ID);
-    if (me) {
-        const s    = me.stats || [];
-        const rank = sv(s, 'rank');
-        const pts  = sv(s, 'points');
-        const w    = sv(s, 'wins');
-        const d    = sv(s, 'ties');
-        const l    = sv(s, 'losses');
-        document.getElementById('header-stats').innerHTML = `
-            <div class="hstat"><span class="hstat-val">${rank}位</span><span class="hstat-lbl">順位</span></div>
-            <div class="hstat-divider"></div>
-            <div class="hstat"><span class="hstat-val">${pts}pt</span><span class="hstat-lbl">勝点</span></div>
-            <div class="hstat-divider"></div>
-            <div class="hstat"><span class="hstat-val">${w}勝${d}分${l}敗</span><span class="hstat-lbl">戦績</span></div>`;
-    }
+    const s    = me.stats || [];
+    const rank = sv(s, 'rank');
+    const pts  = sv(s, 'points');
+    const w    = sv(s, 'wins');
+    const d    = sv(s, 'ties');
+    const l    = sv(s, 'losses');
+    document.getElementById('header-stats').innerHTML = `
+        <div class="hstat"><span class="hstat-val">${rank}位</span><span class="hstat-lbl">順位</span></div>
+        <div class="hstat-divider"></div>
+        <div class="hstat"><span class="hstat-val">${pts}pt</span><span class="hstat-lbl">勝点</span></div>
+        <div class="hstat-divider"></div>
+        <div class="hstat"><span class="hstat-val">${w}勝${d}分${l}敗</span><span class="hstat-lbl">戦績</span></div>`;
 }
 
 // ---- 起動 ----
